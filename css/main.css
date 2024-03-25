@@ -227,8 +227,8 @@ a.navbar-brand {
     margin-bottom: 30px;
 }
 
-.icon-creme{
-    background-image: url(../img/icon-creme.png);
+.icon-acai{
+    background-image: url(../img/icon-acai.png);
     background-size: cover;
     background-position: center 1px;
     background-repeat: no-repeat;
@@ -239,12 +239,12 @@ a.navbar-brand {
     
 }
 
-.active .icon-creme {
-    background-image: url(../img/icon-creme-active.png);
+.active .icon-acai {
+    background-image: url(../img/icon-acai.png);
 }
 
-.icon-vitamina{
-    background-image: url(../img/icon-⁫vitamina.png);
+.icon-pizza{
+    background-image: url(../img/icon-pizza.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -255,13 +255,13 @@ a.navbar-brand {
 
 }
 
-.active .icon-vitamina {
-    background-image: url(../img/icon-⁫vitamina-active.png);
+.active .icon-pizza {
+    background-image: url(../img/icon-pizza.png);
 }
 
 
-.icon-milkshake{
-    background-image: url(../img/icon-⁫milkshake.png);
+.icon-lanche{
+    background-image: url(../img/icon-hambu.jpg);
     background-size: cover;
     background-position: center 1px;
     background-repeat: no-repeat;
@@ -272,8 +272,22 @@ a.navbar-brand {
 
 }
 
-.active .icon-milkshake {
-    background-image: url(../img/icon-⁫milkshake-active.png);
+.active .icon-lanche {
+    background-image: url(../img/icon-hambu.jpg);
+}
+.icon-bebida{
+    background-image: url(../img/icon-bebida.png);
+    background-size: cover;
+    background-position: center 1px;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    left:0;
+    display: inline-block;
+    
+}
+.active .icon-bebida {
+    background-image: url(../img/icon-bebida.png);
 }
 
 .cardapio {

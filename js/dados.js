@@ -1,44 +1,44 @@
 var MENU = {
-    "acai-creme": [
+    "acai": [
         {
-            "id": "creme-300ml",
+            "id": "acai-400ml",
             "img": "./img/cardapio/creme/300ml.png",
             "name": "Açai de 400ML",
-            "dsc": "Açaí 400ML Tetse",
+            "dsc": "Açaí de 400ML",
             "price": 10.00
         },
         {
-            "id": "creme-500ml",
+            "id": "acai-500ml",
             "img": "./img/cardapio/creme/500ml.png",
             "name": "Açai de 500ML",
-            "dsc": "Creme de Acaí 500ML",
+            "dsc": "Acaí de 500ML",
             "price": 15.00
         },
 
         {
-            "id": "creme-700ml",
+            "id": "acai-700ml",
             "img": "./img/cardapio/creme/700ml.png",
             "name": "Açai de 700ML",
-            "dsc": "Creme de Açaí 700ML",
+            "dsc": "Açaí de 700ML",
             "price": 18.00
         },
         
         {
-            "id": "creme-1l",
+            "id": "acai-1l",
             "img": "./img/cardapio/creme/1L.png",
             "name": "Açai de 1L",
-            "dsc": "Creme de Açaí 1L",
+            "dsc": "Açaí de 1L",
             "price": 25.00
         }
 
     ],
-    "acai-vitamina": [
+    "pizza": [
         {
             "id": "vitamina-300",
             "img": "./img/cardapio/vitamina/vitamina.png",
             "name": "Vitamina 300ML",
             "dsc": "Vitamina de Açai 300ML",
-            "price": 6.00
+            "price": 20.00
         },
 
         {
@@ -58,7 +58,7 @@ var MENU = {
         }
        
     ],
-    "milk-shake": [
+    "lanche": [
         {
             "id": "milkshake-300",
             "img": "./img/cardapio/mikshake/milkshake.png",
@@ -84,21 +84,21 @@ var MENU = {
     ],
     "bebidas": [
         {
-            "id": "Coca cola 1L",
+            "id": "b10 Coca cola 1L",
             "img": "./img/cardapio/mikshake/milkshake.png",
             "name": "Coca cola 1L",
             "dsc": "Coca cola 1L",
             "price": 10.00
         },
         {
-            "id": "Coca cola 2L",
+            "id": "b10 Coca cola 2L",
             "img": "./img/cardapio/mikshake/milkshake.png",
             "name": "Coca cola 2L",
             "dsc": "Coca cola 2L",
             "price": 14.00
         },
         {
-            "id": "Guarana 2L",
+            "id": "b10 Guarana 2L",
             "img": "./img/cardapio/mikshake/milkshake.png",
             "name": "Guarana 2L",
             "dsc": "Guarana 2L",
@@ -316,6 +316,35 @@ var MILK_SHAKE = {
 
     ]
 
+}
+
+var PIZZAS = {
+    "pizza-tamanho": [
+        {
+            "id": "tg",
+            "name": "Tamanho G",
+            "price": 35
+        },
+        {
+            "id": "tgg",
+            "name": "Tamanho GG",
+            "price": 50
+        }
+        
+    ],
+    "acrescimos-especiais": [
+        {
+            "id": "bis",
+            "name": "Bis",
+            "price": 2.00
+        },
+        {
+            "id": "chantilly",
+            "name": "Chantilly",
+            "price": 2.00
+        },     
+        
+    ]
 }
 
 // Remover comentario em produção

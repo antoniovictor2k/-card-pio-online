@@ -76,7 +76,7 @@ cardapio.eventos = {
 cardapio.metodos = {
 
     // obtem a lista de itens do cardápio
-    obterItensCardapio: (categoria = 'acai-creme') => {
+    obterItensCardapio: (categoria = 'acai') => {
         var filtro = MENU[categoria];
 
         $('#itensCardapio').html('')
@@ -99,6 +99,10 @@ cardapio.metodos = {
         // seta o menu clicado para ativo
         $('#menu-' + categoria).addClass('active')
     },
+
+
+    // 25/03/2024 
+    // começa aqui
 
     //adicionar ao carrinho o item do cardápio
     adicionarAoCarrinho: (id) => {
@@ -224,6 +228,7 @@ cardapio.metodos = {
             $('#itensCarrinho').addClass('hidden');
             $('#localEntrega').addClass('hidden');
             $('#localEntrega2').addClass('hidden');
+            
             $('#resumoCarrinho').removeClass('hidden');
 
             $('.etapa').removeClass('active');
@@ -338,6 +343,11 @@ cardapio.metodos = {
                     } else {
                         $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
                     }
+                    // if (e.id.includes("b10")) {
+                    //     $('.esconderTituloProduto').addClass('hidden');
+                    //     $(".esconderTituloProduto").html('<p>teste</p>');
+                    // }
+                    // estamos aqui 25/03
 
                     // deixar botão de menos com item de excluir se quantidade for 1
                     let qtdAtual = parseInt($('#qntd-carrinho_' + e.id + '_' + e.idCarrinho).text());
@@ -1337,14 +1347,14 @@ cardapio.templates = {
         </div>
         
         <div class="col-12 acrescimos animated bounceInDown" id="acrescimos-\${idCarrinho}">
-                <p class="title-produto"><b>Acrescimos Comuns</b></p>
+                <p class="title-produto"><b class="esconderTituloProduto">Acrescimos Comuns</b></p>
                 <p id="p-\${idCarrinho}">Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ por cada acréscimo comum adicional:</p>
 
                 <div id="acrescimoComum_\${id}_\${idCarrinho}" class="acrescimosComum">
 
                 </div>
 
-                <p class="title-produto especial"><b>Acrescimos Especiais</b></p>
+                <p class="title-produto especial"><b class="esconderTituloProduto">Acrescimos Especiais</b></p>
 
                 <div id="acrescimoEspecial_\${id}_\${idCarrinho}" class="acrescimosEspecial">
 
