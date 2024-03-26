@@ -469,6 +469,7 @@ footer {
     flex:1;
     overflow: auto;
     overflow-x: hidden;
+    user-select: none;
 }
 
 .m-body::-webkit-scrollbar{
@@ -972,3 +973,44 @@ body.modal-open {
 
 /* 000 Webhost*/
 img[src="https://cdn.000webhost.com/000webhost/logo/footer-powered-by-000webhost-white2.png"] {display: none;}
+
+/* Aqui estou  */
+
+#escolherFormaDeEntrega{
+    gap: 20px;
+   
+}
+
+
+/* Esconde o input padrão */
+#escolherFormaDeEntrega input[type="radio"] {
+    display: none;
+  }
+  
+  /* Estilo personalizado do radio button */
+  #escolherFormaDeEntrega  input[type="radio"] + label::before {
+    margin-left: 30px;
+    content: "";
+    display: inline-block;
+    width: 30px; /* Largura da bolinha */
+    height: 30px; /* Altura da bolinha */
+    border: 2px solid var(--color-separate); /* Cor e espessura da borda */
+    border-radius: 8px; /* Formato da bolinha */
+    margin-right: 10px; /* Espaçamento entre a bolinha e o texto */
+    vertical-align: middle;
+  }
+  
+  /* Estilo da bolinha quando o radio button está marcado */
+  #escolherFormaDeEntrega  input[type="radio"]:checked + label::before {
+    background-color: var(--color-primary); /* Cor de fundo da bolinha */
+  }
+  
+  /* Estilo do texto da label */
+  #escolherFormaDeEntrega  label {
+    cursor: pointer; /* Cursor se transforma em mãozinha quando hover */
+    vertical-align: middle; /* Alinha verticalmente o texto com a bolinha */
+}
+
+.m-footer{
+    user-select: none;
+}

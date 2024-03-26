@@ -55,6 +55,17 @@ var VALOR_ENTREGA = 0;
 var MEU_NOME = null;
 var FORMA_DE_PAGAMENTO = null;
 
+const verificar_inputRadio = () => {
+    var radioEntrega = document.getElementById("entrega");
+            if (radioEntrega.checked) {
+                console.log("checked ok full");
+                $('.checkedEntrega').removeClass('hidden');
+            }else{
+                console.log("checked NOK full");
+                $('.checkedEntrega').addClass('hidden');
+            }
+}
+
 console.log("var MEU_NOME ",MEU_NOME);
 console.log("var MEU_ENDERECO ",MEU_ENDERECO);
 console.log("var FORMA_DE_PAGAMENTO ",FORMA_DE_PAGAMENTO);
@@ -185,14 +196,19 @@ cardapio.metodos = {
         }
     },
 
+    
+    
     // altera os textos e exibe os botões das etapas
     carregarEtapa: (etapa) => {
+
         if (etapa == 1) {
             $('#lblTituloEtapa').text('Seu Carrinho: ');
             $('#itensCarrinho').removeClass('hidden');
             $('#localEntrega').addClass('hidden');
             $('#localEntrega2').addClass('hidden');
             $('#resumoCarrinho').addClass('hidden');
+            $('#escolherFormaDeEntrega').addClass('hidden');
+
 
             $('.etapa').removeClass('active');
             $('.etapa1').addClass('active');
@@ -210,6 +226,8 @@ cardapio.metodos = {
             $('#itensCarrinho').addClass('hidden');
             $('#localEntrega').removeClass('hidden');
             $('#localEntrega2').removeClass('hidden');
+            $('#escolherFormaDeEntrega').removeClass('hidden');
+            
             $('#resumoCarrinho').addClass('hidden');
 
             $('.etapa').removeClass('active');
@@ -228,6 +246,8 @@ cardapio.metodos = {
             $('#itensCarrinho').addClass('hidden');
             $('#localEntrega').addClass('hidden');
             $('#localEntrega2').addClass('hidden');
+            $('#escolherFormaDeEntrega').addClass('hidden');
+// aqui em dev
             
             $('#resumoCarrinho').removeClass('hidden');
 
@@ -514,17 +534,33 @@ cardapio.metodos = {
       .addEventListener("change", function () {
         var select = document.getElementById("txtBairro");
         var selectedOption = select.options[select.selectedIndex].value;
-        console.log("Opção selecionada:", selectedOption);
+
         // Coloque aqui o código que deseja executar quando o select for alterado
-        if (selectedOption == "Cleto") {
-          VALOR_ENTREGA = 4;
+       
+        switch(selectedOption) {
+            case "Cleto":
+              VALOR_ENTREGA = 3;
+              break;
+            case "Village":
+              VALOR_ENTREGA = 8;
+              break;
+            case "Salvado Lyra":
+            case "Clima Bom":
+              VALOR_ENTREGA = 6;
+              break;
+            case "Santa Lúcia":
+              VALOR_ENTREGA = 4;
+              break;
+            case "Demais Bairros":
+              VALOR_ENTREGA = 8;
+              break;
+            default:
+                VALOR_ENTREGA = 0;
+              break;
+          }
+          
 
-          console.log("bairro full", VALOR_ENTREGA);
-        } else if (selectedOption == "Village") {
-          VALOR_ENTREGA = 10;
 
-          console.log("bairro full");
-        }
         // Atualiza o rótulo da entrega
         $("#lblEntrega").text(
           `R$ ${VALOR_ENTREGA.toFixed(2).replace(".", ",")}`
@@ -930,14 +966,20 @@ cardapio.metodos = {
         let pagamento = $('#ddlFormaPagamento').val().trim();
         let troco = $('#ddlTroco').val().trim();
 
-        console.log("tets cidade: ", cidade)
+        var radioEntrega = document.getElementById("entrega");
 
+
+     
+        
         if (nome.length <= 3) {
             cardapio.metodos.mensagem('Por favor informe o Nome.');
             $('#txtNome').focus();
             return;
         }
-
+        
+        if(radioEntrega.checked){
+console.log("radioEntrega.checked Ativado");
+        
         if (cep.length <= 0) {
             cardapio.metodos.mensagem('Por favor informe o CEP. Caso não tenha coloque um número qualquer');
             $('#txtCEP').focus();
@@ -974,12 +1016,14 @@ cardapio.metodos = {
             return;
         }
 
+    }
         if (pagamento == "-1") {
             cardapio.metodos.mensagem("Por favor informe a Forma de Pagamento.");
             $("#ddlFormaPagamento").focus();
             return;
           }
       
+
           if (pagamento == "Dinheiro" && troco == "-1") {
             cardapio.metodos.mensagem("Por favor informe Troco Para Quanto.");
             $("#ddlTroco").focus();
@@ -1070,6 +1114,10 @@ cardapio.metodos = {
             }
         });
 
+// Vamos add aqui uma mensagem diferente caso o cliente escolhar retirar o pedido na loja!
+// if em cima do checked entrega
+
+
         $('#resumoEndereco').html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
 
         $('#cidadeEndereco').html(`${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} / ${MEU_ENDERECO.complemento}`)
@@ -1082,13 +1130,17 @@ cardapio.metodos = {
     // Atualiza o link do botão de Whatsapp
     finalizarPedido: () => {
 
+        const numeroPedido = 1020;
+
         if (MEU_CARRINHO.length > 0 && MEU_ENDERECO != null) {
 
             var texto = `Olá, gostaria de fazer um pedido!\n\n`;
-            texto += `Nome: *${MEU_NOME}*\n\n`
+            texto += `Nome: *${MEU_NOME}*\n\n Pedido N *${numeroPedido}*`
             texto += `*Já selecionei meu pedido pelo Cardápio Digital:*`;
             texto += `\n\n*Itens do pedido:*\${itens}`;
             texto += '\n\n*Endereço de entrega:*';
+            // // Vamos add aqui uma mensagem diferente caso o cliente escolhar retirar o pedido na loja!
+
             texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
             texto += `\n${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`;
             texto += '\n\n*Forma de pagamento:*';

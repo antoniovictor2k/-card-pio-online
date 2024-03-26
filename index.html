@@ -257,8 +257,14 @@
 
 
                 </div>
-
+                <div id="escolherFormaDeEntrega" class="d-flex row">
+                    <input type="radio" onclick="verificar_inputRadio()" id="entrega" name="metodo" checked value="Entrega">
+                    <label for="entrega" onclick="verificar_inputRadio()">Quero com Entrega</label><br>
+                    <input type="radio" id="retira" onclick="verificar_inputRadio()" name="metodo" value="Retira">
+                    <label for="retira" onclick="verificar_inputRadio()">Quero Retira na Loja</label><br><br>
+                </div>
                 <div id="localEntrega" class="row mr-0 ml-0 animated fadeIn hidden">
+                    
                     <div class="col-12 col-lg-4 col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="txtNome">Seu Nome:</label>
@@ -267,7 +273,9 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-4 col-md-4 col-sm-12">
+                    <!-- <span id="CheckedEntrega"> -->
+
+                    <div class="col-12 col-lg-4 col-md-4 col-sm-12 checkedEntrega">
                         <div class="form-group container-cep">
                             <label for="txtCEP">CEP:</label>
                             <input id="txtCEP" type="text" class="form-control"
@@ -276,16 +284,16 @@
                                     class="fas fa-search"></i></a>
                         </div>
                     </div>
-                    <div class="col-8 no-mobile"></div>
+                    <div class="col-8 no-mobile checkedEntrega"></div>
 
-                    <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-12 col-lg-6 col-md-6 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="txtEndereco">Endereço:</label>
                             <input id="txtEndereco" type="text" class="form-control">
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-12 col-lg-4 col-md-4 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="txtBairro">Bairro:</label>
                             <select id="txtBairro" class="form-control">
@@ -300,27 +308,27 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-2 col-md-2 col-sm-12">
+                    <div class="col-12 col-lg-2 col-md-2 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="txtNumero">Número:</label>
                             <input id="txtNumero" type="text" class="form-control">
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-12 col-lg-6 col-md-6 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="txtCidade">Cidade:</label>
                             <input id="txtCidade" type="text" class="form-control">
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-12 col-lg-4 col-md-4 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="txtComplemento">Complemento:</label>
                             <input id="txtComplemento" type="text" class="form-control">
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-2 col-md-2 col-sm-12">
+                    <div class="col-12 col-lg-2 col-md-2 col-sm-12 checkedEntrega">
                         <div class="form-group">
                             <label for="ddlUf">UF:</label>
                             <select id="ddlUf" class="form-control">
@@ -329,8 +337,9 @@
                             </select>
                         </div>
                     </div>
-
-
+                
+               
+<!-- aqiw -->
                 </div>
 
                 <div id="localEntrega2" class="animated fadeIn hidden">
