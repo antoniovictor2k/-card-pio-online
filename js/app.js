@@ -1,7 +1,7 @@
 const CELULAR_EMPRESA = '558291981626';
 
 const LOJA_ABRE = 10;
-const LOJA_FECHA  = 24;
+const LOJA_FECHA = 24;
 
 // Inicializa  proximoIdCarrinho com valor salvo no navegador ou o valor 1
 let proximoIdCarrinho = 1;
@@ -36,10 +36,10 @@ $(document).ready(function () {
 
 
 // Mostrar mensagem de loja aberta ou fechada
-document.addEventListener("visibilitychange", function() {
-    if(!document.hidden){
+document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
         cardapio.metodos.lojaAbertaOuFechada();
-    } 
+    }
 });
 
 
@@ -57,18 +57,18 @@ var FORMA_DE_PAGAMENTO = null;
 
 const verificar_inputRadio = () => {
     var radioEntrega = document.getElementById("entrega");
-            if (radioEntrega.checked) {
-                console.log("checked ok full");
-                $('.checkedEntrega').removeClass('hidden');
-            }else{
-                console.log("checked NOK full");
-                $('.checkedEntrega').addClass('hidden');
-            }
+    if (radioEntrega.checked) {
+        console.log("checked ok full");
+        $('.checkedEntrega').removeClass('hidden');
+    } else {
+        console.log("checked NOK full");
+        $('.checkedEntrega').addClass('hidden');
+    }
 }
 
-console.log("var MEU_NOME ",MEU_NOME);
-console.log("var MEU_ENDERECO ",MEU_ENDERECO);
-console.log("var FORMA_DE_PAGAMENTO ",FORMA_DE_PAGAMENTO);
+console.log("var MEU_NOME ", MEU_NOME);
+console.log("var MEU_ENDERECO ", MEU_ENDERECO);
+console.log("var FORMA_DE_PAGAMENTO ", FORMA_DE_PAGAMENTO);
 
 
 
@@ -99,7 +99,7 @@ cardapio.metodos = {
                 .replace(/\${dsc}/g, e.dsc)
                 .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
                 .replace(/\${id}/g, e.id);
-                console.log("TEstando aqui:", e.id)
+            console.log("TEstando aqui:", e.id)
 
             $('#itensCardapio').append(temp)
         });
@@ -196,8 +196,8 @@ cardapio.metodos = {
         }
     },
 
-    
-    
+
+
     // altera os textos e exibe os botões das etapas
     carregarEtapa: (etapa) => {
 
@@ -227,7 +227,7 @@ cardapio.metodos = {
             $('#localEntrega').removeClass('hidden');
             $('#localEntrega2').removeClass('hidden');
             $('#escolherFormaDeEntrega').removeClass('hidden');
-            
+
             $('#resumoCarrinho').addClass('hidden');
 
             $('.etapa').removeClass('active');
@@ -247,8 +247,8 @@ cardapio.metodos = {
             $('#localEntrega').addClass('hidden');
             $('#localEntrega2').addClass('hidden');
             $('#escolherFormaDeEntrega').addClass('hidden');
-// aqui em dev
-            
+            // aqui em dev
+
             $('#resumoCarrinho').removeClass('hidden');
 
             $('.etapa').removeClass('active');
@@ -486,7 +486,7 @@ cardapio.metodos = {
         cardapio.metodos.animacaoeRemover(id, indice);
         localStorage.setItem('meu_carrinho', JSON.stringify(MEU_CARRINHO));
     },
-    
+
     animacaoeRemover: (id, indice) => {
         item = $('#item-carrinho_' + id);
 
@@ -495,12 +495,12 @@ cardapio.metodos = {
 
         item.one('animationend', function () {
             item.remove();
-        
+
 
             if (MEU_CARRINHO.length == 0) {
                 cardapio.metodos.carrinhoVazio();
             }
-            
+
         });
     },
 
@@ -523,54 +523,54 @@ cardapio.metodos = {
     carregarValores: () => {
         VALOR_CARRINHO = 0;
         VALOR_ENTREGA = 0;
-        
+
 
         $('#lblPedido').text('R$ 0,00');
         $('#lblEntrega').text('R$ 0,00');
         $('#lblValorTotal').text('R$ 0,00');
 
         document
-      .getElementById("txtBairro")
-      .addEventListener("change", function () {
-        var select = document.getElementById("txtBairro");
-        var selectedOption = select.options[select.selectedIndex].value;
+            .getElementById("txtBairro")
+            .addEventListener("change", function () {
+                var select = document.getElementById("txtBairro");
+                var selectedOption = select.options[select.selectedIndex].value;
 
-        // Coloque aqui o código que deseja executar quando o select for alterado
-       
-        switch(selectedOption) {
-            case "Cleto":
-              VALOR_ENTREGA = 3;
-              break;
-            case "Village":
-              VALOR_ENTREGA = 8;
-              break;
-            case "Salvado Lyra":
-            case "Clima Bom":
-              VALOR_ENTREGA = 6;
-              break;
-            case "Santa Lúcia":
-              VALOR_ENTREGA = 4;
-              break;
-            case "Demais Bairros":
-              VALOR_ENTREGA = 8;
-              break;
-            default:
-                VALOR_ENTREGA = 0;
-              break;
-          }
-          
+                // Coloque aqui o código que deseja executar quando o select for alterado
+
+                switch (selectedOption) {
+                    case "Cleto":
+                        VALOR_ENTREGA = 3;
+                        break;
+                    case "Village":
+                        VALOR_ENTREGA = 8;
+                        break;
+                    case "Salvado Lyra":
+                    case "Clima Bom":
+                        VALOR_ENTREGA = 6;
+                        break;
+                    case "Santa Lúcia":
+                        VALOR_ENTREGA = 4;
+                        break;
+                    case "Demais Bairros":
+                        VALOR_ENTREGA = 8;
+                        break;
+                    default:
+                        VALOR_ENTREGA = 0;
+                        break;
+                }
 
 
-        // Atualiza o rótulo da entrega
-        $("#lblEntrega").text(
-          `R$ ${VALOR_ENTREGA.toFixed(2).replace(".", ",")}`
-        );
-        const valor_total = VALOR_CARRINHO + VALOR_ENTREGA;
 
-        $("#lblValorTotal").text(
-          `R$ ${valor_total.toFixed(2).replace(".", ",")}`
-        );
-      });
+                // Atualiza o rótulo da entrega
+                $("#lblEntrega").text(
+                    `R$ ${VALOR_ENTREGA.toFixed(2).replace(".", ",")}`
+                );
+                const valor_total = VALOR_CARRINHO + VALOR_ENTREGA;
+
+                $("#lblValorTotal").text(
+                    `R$ ${valor_total.toFixed(2).replace(".", ",")}`
+                );
+            });
 
         $.each(MEU_CARRINHO, (i, e) => {
 
@@ -583,12 +583,12 @@ cardapio.metodos = {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum1L(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
 
                     // se for acai até 700ML
-                } 
+                }
                 if (e.id.includes('500ml')) {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum500ML(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
 
                     // se for acai até 700ML
-                } 
+                }
                 else {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
                 }
@@ -610,12 +610,12 @@ cardapio.metodos = {
             // mostra total do carrinho pedidos sem o frente
             if ((i + 1) == MEU_CARRINHO.length) {
                 $('#lblPedido').text(`R$ ${VALOR_CARRINHO.toFixed(2).replace('.', ',')}`);
-                
+
             }
             // mostra entrega
             if ((i + 1) == MEU_CARRINHO.length) {
                 $('#lblEntrega').text(`R$ ${VALOR_ENTREGA.toFixed(2).replace('.', ',')}`);
-                
+
             }
             // mostra total do carrinho com frente e tudo
             if ((i + 1) == MEU_CARRINHO.length) {
@@ -908,7 +908,7 @@ cardapio.metodos = {
                             $('#txtNumero').focus();
                         }
                         else {
-                        console.log(dados);
+                            console.log(dados);
                             cardapio.metodos.mensagem('Desculpe, no momento só atendemos em Alagoas.')
                         }
 
@@ -969,66 +969,66 @@ cardapio.metodos = {
         var radioEntrega = document.getElementById("entrega");
 
 
-     
-        
+
+
         if (nome.length <= 3) {
             cardapio.metodos.mensagem('Por favor informe o Nome.');
             $('#txtNome').focus();
             return;
         }
-        
-        if(radioEntrega.checked){
-console.log("radioEntrega.checked Ativado");
-        
-        if (cep.length <= 0) {
-            cardapio.metodos.mensagem('Por favor informe o CEP. Caso não tenha coloque um número qualquer');
-            $('#txtCEP').focus();
-            return;
-        }
 
-        if (endereco.length <= 0) {
-            cardapio.metodos.mensagem('Por favor informe o Endereço.');
-            $('#txtEndereco').focus();
-            return;
-        }
+        if (radioEntrega.checked) {
+            console.log("radioEntrega.checked Ativado");
 
-        if (bairro  == '-1') {
-            cardapio.metodos.mensagem('Por favor informe o Bairro.');
-            $('#txtBairro').focus();
-            return;
-        }
+            if (cep.length <= 0) {
+                cardapio.metodos.mensagem('Por favor informe o CEP. Caso não tenha coloque um número qualquer');
+                $('#txtCEP').focus();
+                return;
+            }
 
-        if (cidade.length <= 0) {
-            cardapio.metodos.mensagem('Por favor informe a Cidade.');
-            $('#txtCidade').focus();
-            return;
-        }
+            if (endereco.length <= 0) {
+                cardapio.metodos.mensagem('Por favor informe o Endereço.');
+                $('#txtEndereco').focus();
+                return;
+            }
 
-        if (uf == '-1') {
-            cardapio.metodos.mensagem('Por favor informe o Estado (UF).');
-            $('#ddlUf').focus();
-            return;
-        }
+            if (bairro == '0') {
+                cardapio.metodos.mensagem('Por favor informe o Bairro.');
+                $('#txtBairro').focus();
+                return;
+            }
 
-        if (numero.length <= 0) {
-            cardapio.metodos.mensagem('Por favor informe o Número.');
-            $('#txtNumero').focus();
-            return;
-        }
+            if (cidade.length <= 0) {
+                cardapio.metodos.mensagem('Por favor informe a Cidade.');
+                $('#txtCidade').focus();
+                return;
+            }
 
-    }
-        if (pagamento == "-1") {
+            if (uf == '0') {
+                cardapio.metodos.mensagem('Por favor informe o Estado (UF).');
+                $('#ddlUf').focus();
+                return;
+            }
+
+            if (numero.length <= 0) {
+                cardapio.metodos.mensagem('Por favor informe o Número.');
+                $('#txtNumero').focus();
+                return;
+            }
+
+        }
+        if (pagamento == "0") {
             cardapio.metodos.mensagem("Por favor informe a Forma de Pagamento.");
             $("#ddlFormaPagamento").focus();
             return;
-          }
-      
+        }
 
-          if (pagamento == "Dinheiro" && troco == "-1") {
+
+        if (pagamento == "Dinheiro" && troco == "0") {
             cardapio.metodos.mensagem("Por favor informe Troco Para Quanto.");
             $("#ddlTroco").focus();
             return;
-          }
+        }
 
         MEU_NOME = nome;
 
@@ -1114,41 +1114,61 @@ console.log("radioEntrega.checked Ativado");
             }
         });
 
-// Vamos add aqui uma mensagem diferente caso o cliente escolhar retirar o pedido na loja!
-// if em cima do checked entrega
+        // Vamos add aqui uma mensagem diferente caso o cliente escolhar retirar o pedido na loja!
+        // if em cima do checked entrega
 
+        var radioEntrega = document.getElementById("entrega");
+        let pagamento = $('#ddlFormaPagamento').val().trim();
+        if (radioEntrega.checked) {
+            $('#resumoEndereco').html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
+            $('#cidadeEndereco').html(`${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} / ${MEU_ENDERECO.complemento}`)
+        } else {
+            $('#resumoEndereco').html(`Retirar Pedido na Loja`);
+        }
+        if (pagamento === "Dinheiro") {
+            $('#formaPagamento').html(`${FORMA_DE_PAGAMENTO.pagamento} - ${FORMA_DE_PAGAMENTO.troco}`)
+        } else {
+            $('#formaPagamento').html(`${FORMA_DE_PAGAMENTO.pagamento} - Esta opção não precisa de troco`)
+        }
 
-        $('#resumoEndereco').html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
-
-        $('#cidadeEndereco').html(`${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} / ${MEU_ENDERECO.complemento}`)
-
-        $('#formaPagamento').html(`${FORMA_DE_PAGAMENTO.pagamento} - ${FORMA_DE_PAGAMENTO.troco}`)
 
         cardapio.metodos.finalizarPedido();
     },
 
     // Atualiza o link do botão de Whatsapp
     finalizarPedido: () => {
+        var radioEntrega = document.getElementById("entrega");
+        let pagamento = $('#ddlFormaPagamento').val().trim();
 
         const numeroPedido = 1020;
 
         if (MEU_CARRINHO.length > 0 && MEU_ENDERECO != null) {
 
             var texto = `Olá, gostaria de fazer um pedido!\n\n`;
-            texto += `Nome: *${MEU_NOME}*\n\n Pedido N *${numeroPedido}*`
+            texto += `Nome: *${MEU_NOME}*, PN: *${numeroPedido}*\n\n `
             texto += `*Já selecionei meu pedido pelo Cardápio Digital:*`;
             texto += `\n\n*Itens do pedido:*\${itens}`;
+
             texto += '\n\n*Endereço de entrega:*';
             // // Vamos add aqui uma mensagem diferente caso o cliente escolhar retirar o pedido na loja!
+            if (radioEntrega.checked) {
+                texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
+                texto += `\n${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} / ${MEU_ENDERECO.complemento}`;
+            } else {
+                texto += `\nEstarei indo retirar meu pedido na loja!`;
+            }
 
-            texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
-            texto += `\n${MEU_ENDERECO.cidade} - ${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`;
             texto += '\n\n*Forma de pagamento:*';
-            texto += `\n${FORMA_DE_PAGAMENTO.pagamento} - ${FORMA_DE_PAGAMENTO.troco}`;
+            if (pagamento === "Dinheiro") {
+                texto += `\n${FORMA_DE_PAGAMENTO.pagamento} - Vou precisa de troco para ${FORMA_DE_PAGAMENTO.troco}`;
+            } else {
+                texto += `\n${FORMA_DE_PAGAMENTO.pagamento}`;
+            }
+
             texto += `\n\n*Total: R$ ${VALOR_CARRINHO.toFixed(2).replace('.', ',')}*`;
 
             var itens = '';
-            
+
 
             $.each(MEU_CARRINHO, (i, e) => {
 
@@ -1234,13 +1254,13 @@ console.log("radioEntrega.checked Ativado");
                 // ultimo item
                 if ((i + 1) == MEU_CARRINHO.length) {
                     texto = texto.replace(/\${itens}/g, itens);
-                    
+
                     let encode = encodeURIComponent(texto);
 
                     let URL = `https://wa.me/${CELULAR_EMPRESA}?text=${encode}`;
 
                     $('#btnEtapaResumo').attr('href', URL);
-                   
+
                 }
             });
         }
@@ -1312,38 +1332,38 @@ console.log("radioEntrega.checked Ativado");
     },
 
     // obtém hora no formato decimal para comparação
-    obterHoraDecimal:() => {
+    obterHoraDecimal: () => {
         var dataAtual = new Date();
         var horas = dataAtual.getHours();
         var minutos = dataAtual.getMinutes();
-    
+
         var horaDecimal = parseFloat(`${horas}.${minutos}`);
-    
+
         return horaDecimal;
     },
-    
-    lojaAbertaOuFechada:() => {
+
+    lojaAbertaOuFechada: () => {
         let hora = cardapio.metodos.obterHoraDecimal();
         let dia = new Date().getDay();
         let segunda = 1;
 
         // Dia da semana de 0 a 6, onde 0 é domingo
 
-        $('#container-mensagens').html(''); 
+        $('#container-mensagens').html('');
 
 
-        if((hora < LOJA_ABRE || hora >= LOJA_FECHA) || dia == segunda ){
-            
-            cardapio.metodos.mensagem(`Loja Fechada`, cor="red", tempo=10 * 60 * 1000);
-            cardapio.metodos.mensagem(`Abrimos (Ter à Dom) às ${LOJA_ABRE.toFixed(2).replace(".", ":")} hrs.`, cor="red", tempo=15000);
+        if ((hora < LOJA_ABRE || hora >= LOJA_FECHA) || dia == segunda) {
 
-            if((hora >= (LOJA_ABRE - 1) && hora <= LOJA_ABRE ) && dia != segunda ) {
-                cardapio.metodos.mensagem(`Agende seu pedido`, cor="green", tempo=20000);
+            cardapio.metodos.mensagem(`Loja Fechada`, cor = "red", tempo = 10 * 60 * 1000);
+            cardapio.metodos.mensagem(`Abrimos (Ter à Dom) às ${LOJA_ABRE.toFixed(2).replace(".", ":")} hrs.`, cor = "red", tempo = 15000);
+
+            if ((hora >= (LOJA_ABRE - 1) && hora <= LOJA_ABRE) && dia != segunda) {
+                cardapio.metodos.mensagem(`Agende seu pedido`, cor = "green", tempo = 20000);
             }
-            
+
         }
         else {
-            cardapio.metodos.mensagem("Loja aberta, faça seu pedido!", cor='green', tempo=6000);
+            cardapio.metodos.mensagem("Loja aberta, faça seu pedido!", cor = 'green', tempo = 6000);
         }
     }
 }

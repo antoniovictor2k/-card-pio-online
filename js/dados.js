@@ -2,14 +2,16 @@ var MENU = {
     "acai": [
         {
             "id": "acai-400ml",
-            "img": "./img/cardapio/creme/300ml.png",
+            "categoria": "acai",
+            "img": "./img/ACAI/700ml.png",
             "name": "Açai de 400ML",
             "dsc": "Açaí de 400ML",
-            "price": 10.00
+            "price": 12.00
         },
         {
             "id": "acai-500ml",
-            "img": "./img/cardapio/creme/500ml.png",
+            "categoria": "acai",
+            "img": "./img/ACAI/700ml.png",
             "name": "Açai de 500ML",
             "dsc": "Acaí de 500ML",
             "price": 15.00
@@ -17,7 +19,8 @@ var MENU = {
 
         {
             "id": "acai-700ml",
-            "img": "./img/cardapio/creme/700ml.png",
+            "categoria": "acai",
+            "img": "./img/ACAI/700ml.png",
             "name": "Açai de 700ML",
             "dsc": "Açaí de 700ML",
             "price": 18.00
@@ -25,7 +28,8 @@ var MENU = {
         
         {
             "id": "acai-1l",
-            "img": "./img/cardapio/creme/1L.png",
+            "categoria": "acai",
+            "img": "./img/ACAI/1L.png",
             "name": "Açai de 1L",
             "dsc": "Açaí de 1L",
             "price": 25.00
@@ -34,74 +38,83 @@ var MENU = {
     ],
     "pizza": [
         {
-            "id": "vitamina-300",
-            "img": "./img/cardapio/vitamina/vitamina.png",
-            "name": "Vitamina 300ML",
-            "dsc": "Vitamina de Açai 300ML",
+            "id": "pizza-calabresa",
+            "categoria": "pizza",
+            "img": "./img/PIZZA/pizzaCalabresa2.jpg",
+            "name": "Pizza de Calabresa",
+            "dsc": "pizza de calabresa",
             "price": 20.00
         },
 
         {
-            "id": "vitamina-500",
-            "img": "./img/cardapio/vitamina/vitamina.png",
-            "name": "Vitamina 500ML",
-            "dsc": "Vitamina de Açai 500ML",
-            "price": 9.00
+            "id": "pizza-frango",
+            "categoria": "pizza",
+            "img": "./img/PIZZA/pizzaFrango.jpg",
+            "name": "Pizza de Frango",
+            "dsc": "Pizza de Frango",
+            "price": 24.00
         },
 
         {
-            "id": "vitamina-700",
-            "img": "./img/cardapio/vitamina/vitamina.png",
-            "name": "Vitamina 700ML",
-            "dsc": "Vitamina de Açai 700ML",
-            "price": 12.00
+            "id": "pizza-Quatro-Queijo",
+            "categoria": "pizza",
+            "img": "./img/PIZZA/pizzaQuatroQueijo.jpg",
+            "name": "Pizza de Quatro Queijo",
+            "dsc": "Pizza de Quatro Queijo",
+            "price": 22.22
         }
        
     ],
     "lanche": [
         {
-            "id": "milkshake-300",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Milk-Shake 300ML",
-            "dsc": "Milk-Shake 300ML",
-            "price": 6.00
+            "id": "lanche-xtudo",
+            "categoria": "lanche",
+            "img": "./img/LANCHE/lanche.png",
+            "name": "Xtudo",
+            "dsc": "Xtudo Completão .... ... .. .. .......",
+            "price": 18.00
         },
         {
-            "id": "milkshake-500",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Milk-Shake 500ML",
-            "dsc": "Milk-Shake 500ML",
-            "price": 9.00
+            "id": "lanche-Minuano",
+            "categoria": "lanche",
+            "img": "./img/LANCHE/lanche.png",
+            "name": "Minuano",
+            "dsc": "Minuano ......",
+            "price": 14.00
         },
         {
-            "id": "milkshake-700",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Milk-Shake 700ML",
-            "dsc": "Milk-Shake 700ML",
-            "price": 12.00
+            "id": "lanche-Xfrango",
+            "categoria": "lanche",
+            "img": "./img/LANCHE/lanche.png",
+            "name": "Xfrango",
+            "dsc": "Xfrango..........",
+            "price": 20.00
         }
        
     ],
     "bebidas": [
         {
-            "id": "b10 Coca cola 1L",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Coca cola 1L",
+            "id": "bebida-Cocacola1L",
+            "categoria": "bebida",
+            "img": "./img/BEBIDAS/cocaCola1L.png",
+            "name": "Coca cola de 1L",
             "dsc": "Coca cola 1L",
             "price": 10.00
         },
         {
-            "id": "b10 Coca cola 2L",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Coca cola 2L",
+            "id": "bebida-Guarana2L",
+            "categoria": "bebida",
+            "img": "./img/BEBIDAS/guarana2l.png",
+            "name": "Guarana de 2L",
             "dsc": "Coca cola 2L",
             "price": 14.00
         },
         {
-            "id": "b10 Guarana 2L",
-            "img": "./img/cardapio/mikshake/milkshake.png",
-            "name": "Guarana 2L",
-            "dsc": "Guarana 2L",
+            "id": "bebida-Fanta2L",
+            "categoria": "bebida",
+            "img": "./img/BEBIDAS/Fanta2L.png",
+            "name": "Fanta de 2L",
+            "dsc": "Fanta de 2L",
             "price": 12.00
         }
        
@@ -321,14 +334,24 @@ var MILK_SHAKE = {
 var PIZZAS = {
     "pizza-tamanho": [
         {
-            "id": "tg",
-            "name": "Tamanho G",
-            "price": 35
+            "id": "tamanho-p",
+            "name": "Tamanho P",
+            "price": 1.00
         },
         {
-            "id": "tgg",
+            "id": "tamanho-m",
+            "name": "Tamanho M",
+            "price": 1.25
+        },
+        {
+            "id": "tamanho-g",
+            "name": "Tamanho G",
+            "price": 1.50
+        },
+        {
+            "id": "tamanho-gg",
             "name": "Tamanho GG",
-            "price": 50
+            "price": 1.70
         }
         
     ],

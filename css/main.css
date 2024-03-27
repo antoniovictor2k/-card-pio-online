@@ -181,37 +181,79 @@ a.navbar-brand {
 }
 
 .card-banner {
-    height: 360px;
-    width: 360px;
+    height: 280px;
+    width: 280px;
     border-radius: 140px;
-    background-color: #513F8B;
+    background-size: 400% 400%;
     position:absolute;
-    right:30px;
-    top:-40px;
+    right:80px;
+    top:0px;
+    background: linear-gradient(45deg, #5df7b7, #fc2dfc, #3636ff, #6bff30);
+    animation: gradient 8s ease infinite;
 }
 
+
+@keyframes gradient {
+    0% {
+        background-position: 15% 50%;
+    }
+    25% {
+        background-position: 25% 40%;
+    }
+    50% {
+        background-position: 50% 75%;
+    }
+    75% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 40% 50%;
+    }
+}
 .img-banner img{
     position: absolute;
     width: 440px;
-    top:-110px;
-    right:50px;
+    top:-80px;
+    right:0px;
 }
 
-.card{
-    border-radius: 20px;
+/* .card{
+    border-radius: 12px;
     padding: 15px 20px;
     font-size: 20px;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1)!important;
     border: none!important;
-}
+} */
 
-.card-case{
-    width: 250px;
+/* .card-case{
+    width: 219px;
     font-size: 14px;
     position: absolute;
-    right: 20px;
-    bottom: 30px;
+    right: 110px;
+    bottom: 100px;
+
+    background-color: #00ff95;    
+    animation: colorChange 10s ease infinite alternate;
+
 }
+@keyframes colorChange {
+    0% {
+        background-color: #00ff95;
+        opacity: 1;
+    }
+    50% {
+        background-color: #fc2dfc;
+        opacity: 0.5;
+    }
+    75% {
+        background-color: #3636ff;
+        opacity: 0.75;
+    }
+    100% {
+        background-color: #6bff30;
+        opacity: 1;
+    }
+} */
 
 .hint-title {
     color:#513F8B;
@@ -228,7 +270,7 @@ a.navbar-brand {
 }
 
 .icon-acai{
-    background-image: url(../img/icon-acai.png);
+    background-image: url(../img/ACAI/icon-acai.png);
     background-size: cover;
     background-position: center 1px;
     background-repeat: no-repeat;
@@ -240,7 +282,7 @@ a.navbar-brand {
 }
 
 .active .icon-acai {
-    background-image: url(../img/icon-acai.png);
+    background-image: url(../img/ACAI/icon-acai.png);
 }
 
 .icon-pizza{
@@ -261,7 +303,7 @@ a.navbar-brand {
 
 
 .icon-lanche{
-    background-image: url(../img/icon-hambu.jpg);
+    background-image: url(../img/LANCHE/lanche.png);
     background-size: cover;
     background-position: center 1px;
     background-repeat: no-repeat;
@@ -273,10 +315,10 @@ a.navbar-brand {
 }
 
 .active .icon-lanche {
-    background-image: url(../img/icon-hambu.jpg);
+    background-image: url(../img/LANCHE/lanche.png);
 }
 .icon-bebida{
-    background-image: url(../img/icon-bebida.png);
+    background-image: url(../img/BEBIDAS/cocaCola1L.png);
     background-size: cover;
     background-position: center 1px;
     background-repeat: no-repeat;
@@ -287,7 +329,7 @@ a.navbar-brand {
     
 }
 .active .icon-bebida {
-    background-image: url(../img/icon-bebida.png);
+    background-image: url(../img/BEBIDAS/cocaCola1L.png);
 }
 
 .cardapio {
@@ -300,11 +342,13 @@ a.navbar-brand {
 }
 
 .card-item {
-    height: 280px;
+    height: 320px;
+    /* width: 200px; */
 }
 
 .card-item .img-produto img {
-    width: 100%;
+    width: 75%;
+   margin-left: 20px;
     border-radius: 8px;
 }
 
@@ -313,14 +357,14 @@ a.navbar-brand {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    height: 40px;
+    height: 30px;
     margin-bottom: 0px;
-    font-size: 19px;
+    font-size: 15px;
 }
 
 .card-item .price-produto{
-    color: var(--color-green);
-    font-size: 20px;
+    color: #009e45;
+    font-size: 17px;
 }
 
 .card-item .add-carrinho {
@@ -409,11 +453,11 @@ a.navbar-brand {
 
 
 .img-sobre{
-    border-radius: 120px!important;
-    height: 430px;
-    width: 350px;
+    /* border-radius: 120px!important; */
+    height: 410px;
+    width: 200px;
     /*border: 1px solid #513F8B;*/
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 1px 0px rgba(0, 0, 0, 0.5); */
 }
 
 footer {
