@@ -164,12 +164,15 @@
     }
 
     .modal-full {
-        padding: 15px;
+        padding: 10px;
     }
 
     .modal-full .item-carrinho {
         padding-left: 0;
         padding-right: 0;
+        /* width: 550px; */
+        /* border: solid 1px red; */
+        /* flex-wrap: wrap; */
     }
 
     .modal-full .img-produto {
@@ -185,7 +188,10 @@
         width: 60px;
         height: 60px;
     }
-
+    .modal-full .div-descricao-carrinho{
+        /* display: flex;
+        flex-direction: column; */
+    }
     .modal-full .dados-produto {
         padding-left: 0px;
         padding-right: 0px;
@@ -194,7 +200,7 @@
 
     .modal-full .title-produto,
     .modal-full .price-produto {
-        font-size: 16px !important;
+        font-size: 15px !important;
 
     }
 

@@ -572,9 +572,9 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    /*border-bottom: 1px solid var(--color-separate);*/
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /* border: 1px solid red; */
     
 }
 
@@ -590,7 +590,9 @@ footer {
 
 .modal-full .title-produto {
     color: var(--color-black);
-    font-size: 20px;
+    font-size: 18px;
+
+    /* border: 1px solid red; */
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -675,6 +677,24 @@ footer {
     cursor: pointer;
     margin-right: 20px;
     
+}
+
+#observacao-carrinho {
+    padding: 5px 15px;
+/* border: red; */
+/* color: #009e45; */
+background-color: #dfdfdf;
+border-radius: 8px;
+text-rendering: none;
+color: black;
+outline: none; /* Remove a borda de contorno do navegador */
+
+/* overflow-wrap: var(--color-primary); */
+
+}
+.div-observacao-carrinho textarea:focus{
+    border: var(--color-primary) 1px solid;
+
 }
 
 /*PODE DAR BO*/

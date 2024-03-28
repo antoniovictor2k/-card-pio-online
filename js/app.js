@@ -49,6 +49,8 @@ var cardapio = {};
 // Inicializa MEU_CARRINHO com dados salvos no navegador ou uma lista vazia
 var MEU_CARRINHO = obterCarrinhoSalvo() || [];
 
+console.log("testando FUncionalidade; " , MEU_CARRINHO)
+
 var MEU_ENDERECO = null;
 var VALOR_CARRINHO = 0;
 var VALOR_ENTREGA = 0;
@@ -58,18 +60,11 @@ var FORMA_DE_PAGAMENTO = null;
 const verificar_inputRadio = () => {
     var radioEntrega = document.getElementById("entrega");
     if (radioEntrega.checked) {
-        console.log("checked ok full");
         $('.checkedEntrega').removeClass('hidden');
     } else {
-        console.log("checked NOK full");
         $('.checkedEntrega').addClass('hidden');
     }
 }
-
-console.log("var MEU_NOME ", MEU_NOME);
-console.log("var MEU_ENDERECO ", MEU_ENDERECO);
-console.log("var FORMA_DE_PAGAMENTO ", FORMA_DE_PAGAMENTO);
-
 
 
 cardapio.eventos = {
@@ -277,6 +272,8 @@ cardapio.metodos = {
     carregarCarrinho: () => {
         cardapio.metodos.carregarEtapa(1);
 
+console.log(MEU_CARRINHO, "tesnado fun")
+console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
         if (MEU_CARRINHO.length > 0) {
 
@@ -349,6 +346,7 @@ cardapio.metodos = {
 
                     let itemCarrinho = cardapio.templates.itemCarrinho.replace(/\${img}/g, e.img)
                         .replace(/\${nome}/g, e.name)
+                        .replace(/\${dsc}/g, e.dsc)
                         .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
                         .replace(/\${id}/g, e.id)
                         .replace(/\${qntd}/g, e.qntd)
@@ -356,17 +354,20 @@ cardapio.metodos = {
 
                     $("#itensCarrinho").append(itemCarrinho);
 
-                    const precoAcrescimo = ACRESCIMOS['acrescimos-comum'][0].price.toFixed(2).replace(".", ",");
+                    if (MEU_CARRINHO[0]?.categoria == "acai") {
+                        
+                        const precoAcrescimo = ACRESCIMOS['acrescimos-comum'][0].price.toFixed(2).replace(".", ",");
 
-                    if (e.id.includes("1l")) {
-                        $('#p-' + e.idCarrinho).text(`Pode selecionar até 6 que não havera alteração no preço total, acima de 6 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
-                    } else {
-                        $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
+                        console.log(`MEU_CARRINHO[0].categoria == "acai"`)
+    
+                        if (e.id.includes("1l")) {
+                            $('#p-' + e.idCarrinho).text(`Pode selecionar até 6 que não havera alteração no preço total, acima de 6 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
+                        } else {
+                            $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
+                        }
                     }
-                    // if (e.id.includes("b10")) {
-                    //     $('.esconderTituloProduto').addClass('hidden');
-                    //     $(".esconderTituloProduto").html('<p>teste</p>');
-                    // }
+
+                   
                     // estamos aqui 25/03
 
                     // deixar botão de menos com item de excluir se quantidade for 1
@@ -381,41 +382,47 @@ cardapio.metodos = {
                     }
 
                     // lista os acrescimos comuns disponíveis para o item
-                    $.each(ACRESCIMOS['acrescimos-comum'], (idAcrescimoComum, acrescimoComum) => {
-                        let acrecimosComuns = cardapio.templates.acrescimoComum
+                    if (MEU_CARRINHO[0]?.categoria == "acai") {
+
+                        $.each(ACRESCIMOS['acrescimos-comum'], (idAcrescimoComum, acrescimoComum) => {
+                            let acrecimosComuns = cardapio.templates.acrescimoComum
                             .replace(/\${id}/g, acrescimoComum.id)
                             .replace(/\${nome}/g, acrescimoComum.name)
                             .replace(/\${idCarrinho}/g, e.idCarrinho);
-
-                        $("#acrescimoComum_" + e.id + "_" + e.idCarrinho).append(acrecimosComuns);
-
+                            
+                            $("#acrescimoComum_" + e.id + "_" + e.idCarrinho).append(acrecimosComuns);
+                            
                         // remarcar checkbox de acrescimo comum
                         if (MEU_CARRINHO[i].acrescimosComuns.some(obj => obj.id === acrescimoComum.id)) {
                             cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoComum.id)
                         }
                     });
-
+                    
                     // lista os acrescimos especiais disponíveis para o item
                     $.each(ACRESCIMOS['acrescimos-especiais'], (idAcrescimoEspecial, acrescimoEspecial) => {
                         let acrecimosEspeciais = cardapio.templates.acrecimosEspecial
-                            .replace(/\${id}/g, acrescimoEspecial.id)
+                        .replace(/\${id}/g, acrescimoEspecial.id)
                             .replace(/\${nome}/g, acrescimoEspecial.name)
                             .replace(/\${idCarrinho}/g, e.idCarrinho)
                             .replace(/\${preco}/g, acrescimoEspecial.price.toFixed(2).replace('.', ','));
 
-                        $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
+                            $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
 
-                        // remarcar checkbox de acrescimo especial
-                        if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
+                            // remarcar checkbox de acrescimo especial
+                            if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
                             cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoEspecial.id);
                         }
                     });
+
+                }
+                // Estamos aqui ok tentando add pizza tamanho personalizado
                 }
             });
 
         }
         else {
             cardapio.metodos.carrinhoVazio();
+            console.log("auqi é else   cardapio.metodos.carrinhoVazio();")
         }
 
         cardapio.metodos.carregarValores();
@@ -1402,6 +1409,7 @@ cardapio.templates = {
                 <p class="title-produto"><b>\${nome}</b></p>
                 <p class="price-produto"><b  id="preco_\${id}_\${idCarrinho}">R$ \${preco}</b></p>
             </div>
+           
             <div class="add-carrinho">
                 <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
                     <i class="fas fa-arrow-down"></i>
@@ -1415,12 +1423,19 @@ cardapio.templates = {
                 <span class="btn-remove no-mobile" onclick="cardapio.metodos.removerItemCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-times"></i></span>
 
             </div>
-
-        </div>
+            </div>
+            <div class="div-descricao-carrinho">
+            <p class=""><b>Descrição: </b>\${dsc}</p>
+            </div>
+            <div class="div-observacao-carrinho">
+            
+<textarea id="observacao-carrinho" cols="37" rows="3" placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
+            </div>
+
         <div class="col-12 acrescimos animated bounceInDown" id="acrescimos-\${idCarrinho}">
                 <p class="title-produto"><b class="esconderTituloProduto">Acrescimos Comuns</b></p>
-                <p id="p-\${idCarrinho}">Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ por cada acréscimo comum adicional:</p>
+                <p id="p-\${idCarrinho}"></p>
 
                 <div id="acrescimoComum_\${id}_\${idCarrinho}" class="acrescimosComum">
 
@@ -1447,6 +1462,7 @@ cardapio.templates = {
                 <p class="title-produto"><b>\${nome}</b></p>
                 <p class="price-produto"><b id="preco_\${id}_\${idCarrinho}">R$ \${preco}</b></p>
             </div>
+           
             <div class="add-carrinho">
                     <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
                     <i class="fas fa-arrow-down no-mobile"></i>
