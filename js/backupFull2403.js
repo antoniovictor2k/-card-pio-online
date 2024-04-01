@@ -365,6 +365,8 @@ cardapio.metodos = {
                         }
                     });
 
+                    
+
                     // lista os acrescimos especiais disponíveis para o item
                     $.each(ACRESCIMOS['acrescimos-especiais'], (idAcrescimoEspecial, acrescimoEspecial) => {
                         let acrecimosEspeciais = cardapio.templates.acrecimosEspecial

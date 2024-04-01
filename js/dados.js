@@ -332,40 +332,40 @@ var MILK_SHAKE = {
 }
 
 var PIZZAS = {
-    "pizza-tamanho": [
+    "pizzaTamanho": [
         {
-            "id": "tamanho-p",
+            "id": "tamanho-p1",
             "name": "Tamanho P",
-            "price": 1.00
+            "price": 1
         },
         {
-            "id": "tamanho-m",
+            "id": "tamanho-m2",
             "name": "Tamanho M",
-            "price": 1.25
+            "price": 1.2
         },
         {
-            "id": "tamanho-g",
+            "id": "tamanho-g3",
             "name": "Tamanho G",
-            "price": 1.50
+            "price": 1.4
         },
         {
-            "id": "tamanho-gg",
+            "id": "tamanho-gg4",
             "name": "Tamanho GG",
-            "price": 1.70
+            "price": 1.6
         }
         
     ],
-    "acrescimos-especiais": [
+    "acrescimos": [
         {
-            "id": "bis",
+            "id": "borda-catubyry",
             "name": "Bis",
-            "price": 2.00
+            "price": 8.00
         },
         {
-            "id": "chantilly",
+            "id": "borda-coxinha",
             "name": "Chantilly",
-            "price": 2.00
-        },     
+            "price": 20.00
+        }     
         
     ]
 }

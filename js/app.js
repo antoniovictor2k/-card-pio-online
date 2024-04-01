@@ -3,6 +3,7 @@ const CELULAR_EMPRESA = '558291981626';
 const LOJA_ABRE = 10;
 const LOJA_FECHA = 24;
 
+// let id = "tamanho-gg4";
 // Inicializa  proximoIdCarrinho com valor salvo no navegador ou o valor 1
 let proximoIdCarrinho = 1;
 
@@ -49,7 +50,7 @@ var cardapio = {};
 // Inicializa MEU_CARRINHO com dados salvos no navegador ou uma lista vazia
 var MEU_CARRINHO = obterCarrinhoSalvo() || [];
 
-console.log("testando FUncionalidade; " , MEU_CARRINHO)
+console.log("testando FUncionalidade; ", MEU_CARRINHO)
 
 var MEU_ENDERECO = null;
 var VALOR_CARRINHO = 0;
@@ -272,8 +273,8 @@ cardapio.metodos = {
     carregarCarrinho: () => {
         cardapio.metodos.carregarEtapa(1);
 
-console.log(MEU_CARRINHO, "tesnado fun")
-console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
+        console.log(MEU_CARRINHO, "tesnado fun")
+        console.log("AQUIII ", MEU_CARRINHO[0].price, "tesnado fun")
 
         if (MEU_CARRINHO.length > 0) {
 
@@ -282,13 +283,14 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
             $.each(MEU_CARRINHO, (i, e) => {
                 // se for milkshake
-                if (e.id.includes("milk")) {
+                if (e.id.includes("pizza")) {
 
-                    // chama método que verifica se Arrays de sorvetes e cobertura existem 
+                    // chama método que verifica se Arrays de pizzaTamanho e cobertura existem 
                     cardapio.metodos.criarArrayDeSorvetesCoberturas(i);
 
                     let itemCarrinho = cardapio.templates.itemCarrinho2.replace(/\${img}/g, e.img)
                         .replace(/\${nome}/g, e.name)
+                        .replace(/\${dsc}/g, e.dsc)
                         .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
                         .replace(/\${id}/g, e.id)
                         .replace(/\${qntd}/g, e.qntd)
@@ -307,35 +309,52 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
                         btn.attr("style", "background-color: var(--color-red); border: var(--color-red);")
                     }
 
-                    // lista os sorvetes disponíveis para o item
-                    $.each(MILK_SHAKE['sorvetes'], (idSorvete, sorvete) => {
-                        let sorvetes = cardapio.templates.sorvetes
-                            .replace(/\${id}/g, sorvete.id)
-                            .replace(/\${nome}/g, sorvete.name)
+                    // lista os pizzaTamanho disponíveis para o item
+                    // Construa o elemento select antes do loop $.each
+                    let selectElement = `<select id="selectPizzaTamanho_${e.idCarrinho}" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoComum2('${e.idCarrinho}', this.value.split('_')[0]); cardapio.metodos.carregarValores()" class="form-controlll">`;
+
+                    // Adicione uma opção padrão ao select
+                    selectElement += `<option value="0">Selecione o tamanho ${e.idCarrinho} </option>`;
+
+                    // Adicione as opções baseadas no array pizzaTamanho dentro do loop
+                    $.each(PIZZAS['pizzaTamanho'], (idSorvete, tamanho) => {
+                        selectElement += `<option value="${tamanho.id}_${e.idCarrinho}">${tamanho.name}</option>`;
+                    });
+
+                    // Feche o elemento select
+                    selectElement += `</select>`;
+
+                    // Adicione o select ao elemento desejado
+                    $("#pizzaTamanho_" + e.id + "_" + e.idCarrinho).append(selectElement);
+
+                    $.each(PIZZAS['acrescimos'], (idCobertura, acrescimosPizza) => {
+                        let acrescimos = cardapio.templates.acrescimosPizza
+                            .replace(/\${id}/g, acrescimosPizza.id)
+                            .replace(/\${nome}/g, acrescimosPizza.name)
                             .replace(/\${idCarrinho}/g, e.idCarrinho)
-                            .replace(/\${desc}/g, sorvete.desc);
+                            .replace(/\${preco}/g, acrescimosPizza.price.toFixed(2).replace('.', ','));
 
-                        $("#sorvetes_" + e.id + "_" + e.idCarrinho).append(sorvetes);
+                        $("#acrescimosPizza_" + e.id + "_" + e.idCarrinho).append(acrescimos);
 
-                        if (MEU_CARRINHO[i].sorvetes.some(obj => obj.id === sorvete.id)) {
-                            cardapio.metodos.remarcarCheckboxesSorvetes(e.idCarrinho, sorvete.id);
-
+                        if (MEU_CARRINHO[i].acrescimos.some(obj => obj.id === acrescimosPizza.id)) {
+                            cardapio.metodos.remarcarRadiosCoberturas(e.idCarrinho, acrescimosPizza.id);
                         }
                     });
 
-                    $.each(MILK_SHAKE['coberturas'], (idCobertura, cobertura) => {
-                        let coberturas = cardapio.templates.coberturas
-                            .replace(/\${id}/g, cobertura.id)
-                            .replace(/\${nome}/g, cobertura.name)
-                            .replace(/\${idCarrinho}/g, e.idCarrinho)
-                            .replace(/\${desc}/g, cobertura.desc);
+                    // $.each(ACRESCIMOS['acrescimos-especiais'], (idAcrescimoEspecial, acrescimoEspecial) => {
+                    //     let acrecimosEspeciais = cardapio.templates.acrecimosEspecial
+                    //     .replace(/\${id}/g, acrescimoEspecial.id)
+                    //         .replace(/\${nome}/g, acrescimoEspecial.name)
+                    //         .replace(/\${idCarrinho}/g, e.idCarrinho)
+                    //         .replace(/\${preco}/g, acrescimoEspecial.price.toFixed(2).replace('.', ','));
 
-                        $("#coberturas_" + e.id + "_" + e.idCarrinho).append(coberturas);
+                    //         $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
 
-                        if (MEU_CARRINHO[i].coberturas.some(obj => obj.id === cobertura.id)) {
-                            cardapio.metodos.remarcarRadiosCoberturas(e.idCarrinho, cobertura.id);
-                        }
-                    });
+                    //         // remarcar checkbox de acrescimo especial
+                    //         if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
+                    //         cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoEspecial.id);
+                    //     }
+                    // });
 
 
                     // se for Creme de Acaí ou Vitamina
@@ -354,20 +373,20 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                     $("#itensCarrinho").append(itemCarrinho);
 
-                    if (MEU_CARRINHO[0]?.categoria == "acai") {
-                        
-                        const precoAcrescimo = ACRESCIMOS['acrescimos-comum'][0].price.toFixed(2).replace(".", ",");
 
-                        console.log(`MEU_CARRINHO[0].categoria == "acai"`)
-    
-                        if (e.id.includes("1l")) {
-                            $('#p-' + e.idCarrinho).text(`Pode selecionar até 6 que não havera alteração no preço total, acima de 6 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
-                        } else {
-                            $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
-                        }
+
+                    const precoAcrescimo = ACRESCIMOS['acrescimos-comum'][0].price.toFixed(2).replace(".", ",");
+
+                    console.log(`MEU_CARRINHO[0].categoria == "acai"`)
+
+                    if (e.id.includes("1l")) {
+                        $('#p-' + e.idCarrinho).text(`Pode selecionar até 6 que não havera alteração no preço total, acima de 6 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
+                    } else {
+                        $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
                     }
 
-                   
+
+
                     // estamos aqui 25/03
 
                     // deixar botão de menos com item de excluir se quantidade for 1
@@ -382,40 +401,40 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
                     }
 
                     // lista os acrescimos comuns disponíveis para o item
-                    if (MEU_CARRINHO[0]?.categoria == "acai") {
+                    // if (MEU_CARRINHO[0]?.categoria == "acai") {
 
-                        $.each(ACRESCIMOS['acrescimos-comum'], (idAcrescimoComum, acrescimoComum) => {
-                            let acrecimosComuns = cardapio.templates.acrescimoComum
+                    $.each(ACRESCIMOS['acrescimos-comum'], (idAcrescimoComum, acrescimoComum) => {
+                        let acrecimosComuns = cardapio.templates.acrescimoComum
                             .replace(/\${id}/g, acrescimoComum.id)
                             .replace(/\${nome}/g, acrescimoComum.name)
                             .replace(/\${idCarrinho}/g, e.idCarrinho);
-                            
-                            $("#acrescimoComum_" + e.id + "_" + e.idCarrinho).append(acrecimosComuns);
-                            
+
+                        $("#acrescimoComum_" + e.id + "_" + e.idCarrinho).append(acrecimosComuns);
+
                         // remarcar checkbox de acrescimo comum
                         if (MEU_CARRINHO[i].acrescimosComuns.some(obj => obj.id === acrescimoComum.id)) {
                             cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoComum.id)
                         }
                     });
-                    
+
                     // lista os acrescimos especiais disponíveis para o item
                     $.each(ACRESCIMOS['acrescimos-especiais'], (idAcrescimoEspecial, acrescimoEspecial) => {
                         let acrecimosEspeciais = cardapio.templates.acrecimosEspecial
-                        .replace(/\${id}/g, acrescimoEspecial.id)
+                            .replace(/\${id}/g, acrescimoEspecial.id)
                             .replace(/\${nome}/g, acrescimoEspecial.name)
                             .replace(/\${idCarrinho}/g, e.idCarrinho)
                             .replace(/\${preco}/g, acrescimoEspecial.price.toFixed(2).replace('.', ','));
 
-                            $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
+                        $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
 
-                            // remarcar checkbox de acrescimo especial
-                            if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
+                        // remarcar checkbox de acrescimo especial
+                        if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
                             cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoEspecial.id);
                         }
                     });
 
-                }
-                // Estamos aqui ok tentando add pizza tamanho personalizado
+
+                    // Estamos aqui ok tentando add pizza tamanho personalizado
                 }
             });
 
@@ -580,7 +599,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
             });
 
         $.each(MEU_CARRINHO, (i, e) => {
-
+            console.log("MEU_CARRINHO: ", MEU_CARRINHO)
             let VALOR_ITEM = 0;
 
             if (!e.id.includes('milk')) {
@@ -591,14 +610,34 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                     // se for acai até 700ML
                 }
-                if (e.id.includes('500ml')) {
+                if (e.id.includes('0ml')) {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum500ML(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
+                    console.log("1100; ;", e.acrescimosComuns);
+                    console.log("1100; ;", VALOR_ITEM);
 
                     // se for acai até 700ML
                 }
                 else {
-                    VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
+                    let acrescimoComum = 0
+                    // Verifica se 'e' está definido e possui a propriedade 'pizzaTamanho'
+                    if (e && e.pizzaTamanho) {
+                        // Chama a função calcularValorAcrescimoComum passando 'e.pizzaTamanho' e 'e'
+
+                         acrescimoComum = cardapio.metodos.calcularValorAcrescimoComum(e.pizzaTamanho, e);
+                        // Verifica se 'e' está definido e possui a propriedade 'acrescimos'
+                        console.log("1110; ;", e.pizzaTamanho);
+                        let acrescimoEspecial = e && e.acrescimos ? cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimos) : 0;
+                        // Calcula o VALOR_ITEM somando o preço original, os acréscimos comuns e os acréscimos especiais
+                        VALOR_ITEM = (parseFloat(e.price) * acrescimoComum) + acrescimoEspecial;
+                    } else {
+                        // Define VALOR_ITEM como o preço original se 'e' não estiver definido ou não possuir 'pizzaTamanho'
+                        VALOR_ITEM = parseFloat(e.price);
+                    }
+                    console.log("1110; ;", e.pizzaTamanho);
+                    console.log("ii? ", VALOR_ITEM);
+                    // console.log("ii? ", calcularValorAcrescimoComum?);
                 }
+                console.log();
 
             }
 
@@ -639,39 +678,163 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
     },
 
-    calcularValorAcrescimoComum: (acrescimos) => {
-        let totalAcrescimoComum = 0;
-        // Verifica se há mais de 4 acrescimosComuns
-        if (acrescimos.length > 4) {
-            $.each(acrescimos.slice(4), (i, e) => {
-                // Calcula o valor dos acrescimosComuns a partir do terceiro acréscimo
-                totalAcrescimoComum += parseFloat(e.price);
-            });
+    // calcularValorAcrescimoComum: (pizzaTamanho) => {
+    //     let totalAcrescimoPizza = 0;
+    //     // Verifica se há mais de 4 acrescimosComuns
+    //     const pizzza = pizzaTamanho?.length;
+    //     console.log("Quanto: <", pizzza)
+    //     console.log("Preço Atual Tamanho da pizza: >", pizzaTamanho[0]?.price)
+    //     console.log("Preço Atual Pizza: >", MEU_CARRINHO[0]?.price)
+    //     // if (pizzaTamanho?.length > 1) {
+
+    //         $.each(pizzaTamanho.slice(0), (i, e) => {
+
+    //             console.log("Preço Atual Pizza: PP ", MEU_CARRINHO[i]?.price)
+    //             // Calcula o valor dos acrescimosComuns a partir do terceiro acréscimo
+    //             totalAcrescimoPizza = parseFloat(e.price);
+    //         });
+    //     // }
+    //     return totalAcrescimoPizza;
+    // },
+
+    // calcularValorAcrescimoComum: (pizzaTamanho) => {
+    //     let totalAcrescimoPizza = 0;
+
+    //     // Verifica se há mais de 4 acrescimosComuns
+    //     const pizzza = pizzaTamanho?.length;
+    //     console.log("Quanto: <", pizzza)
+    //     console.log("Preço Atual Tamanho da pizza: >", pizzaTamanho[0]?.price)
+    //     console.log("Preço Atual Pizza: >", MEU_CARRINHO[0]?.price)
+
+    //     // cardapio.metodos.carregarValores();
+    //     $.each(pizzaTamanho, (i, e) => {
+    //         console.log("Preço Atual Pizza: PP ", MEU_CARRINHO[i]?.price)
+    //         // Substitui o preço do MEU_CARRINHO pelo preço do pizzaTamanho correspondente
+    //         if (MEU_CARRINHO[i] && pizzaTamanho[i]) {
+    //             MEU_CARRINHO[i].price = pizzaTamanho[i].price
+    //         }
+    //     });
+
+    //     return totalAcrescimoPizza;
+    // },
+
+    // calcularValorAcrescimoComum: (pizzaTamanho) => {
+    //     let totalAcrescimoPizza = 0;
+    //     // Verifica se há mais de 4 acrescimosComuns
+    //     const pizzza = pizzaTamanho?.length;
+    //     console.log("Quanto: <", pizzza)
+    //     console.log("Preço Atual Tamanho da pizza: >", pizzaTamanho[0]?.price)
+    //     console.log("Preço Atual Pizza: >", MEU_CARRINHO[0]?.price)
+    //     // if (pizzaTamanho?.length > 1) {
+
+    //         $.each(pizzaTamanho.slice(0), (i, e) => {
+
+    //             console.log("Preço Atual Pizza: PP ", MEU_CARRINHO[i]?.price)
+    //             // Calcula o valor dos acrescimosComuns a partir do terceiro acréscimo
+    //             totalAcrescimoPizza = parseFloat(e.price) * pizzaTamanho[i]?.price;
+    //         });
+    //     // }
+    //     return totalAcrescimoPizza;
+    // },
+
+    // calcularValorAcrescimoComum: (pizzaTamanho, e) => {
+    //     let totalAcrescimoPizza = 0;
+
+    //     // Obtém o valor selecionado no select
+    //     let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
+    //     console.log("error:, ", selectValue)
+    //     // Verifica se algum valor foi selecionado
+    //     if (selectValue !== "0") {
+    //         let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
+
+    //         // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
+    //         let pizzaSelecionada = pizzaTamanho.find(item => item.id === idPizzaSelecionada);
+
+    //         // Se encontrarmos o objeto correspondente, adicionamos o preço ao total
+    //         if (pizzaSelecionada) {
+    //             totalAcrescimoPizza = pizzaSelecionada.price;
+    //         }
+    //     } else {
+    //         // Nenhum valor selecionado, define o valor padrão
+    //         totalAcrescimoPizza = 0; // Valor padrão (altere conforme necessário)
+    //     }
+
+    //     return totalAcrescimoPizza;
+    // },
+
+    // calcularValorAcrescimoComum: (pizzaTamanho, e) => {
+    //     let totalAcrescimoPizza = 0;
+    
+    //     // Obtém o valor selecionado no select
+    //     let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
+    
+    //     // Verifica se algum valor foi selecionado
+    //     if (selectValue !== "0") {
+    //         let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
+    //         console.log("calcularValorAcrescimoComum :price: " , e.price)
+    //         // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
+    //         let pizzaSelecionada = pizzaTamanho.find(item => item.id === idPizzaSelecionada);
+            
+    //         // Se encontrarmos o objeto correspondente, multiplicamos o preço da pizza pelo preço do tamanho
+    //         if (pizzaSelecionada) {
+    //             console.log("calcularValorAcrescimoComum : pizzaSelecionada: " , pizzaSelecionada.price)
+    //             totalAcrescimoPizza = pizzaSelecionada.price * e.price; // Multiplicação do preço da pizza pelo preço do tamanho selecionado
+    //         }
+    //     } else {
+    //         // Nenhum valor selecionado, define o valor padrão
+    //         totalAcrescimoPizza = 0; // Valor padrão (altere conforme necessário)
+    //     }
+    
+    //     return totalAcrescimoPizza;
+    // },
+
+    calcularValorAcrescimoComum: (pizzaTamanho, e) => {
+        let totalAcrescimoPizza = 0;
+    
+        // Obtém o valor selecionado no select
+        let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
+        console.log("calcularValorAcrescimoComum :price: " , e.price)
+        // Verifica se algum valor foi selecionado
+        if (selectValue !== "0") {
+            let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
+    
+            // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
+            let pizzaSelecionada = pizzaTamanho.find(item => item.id === idPizzaSelecionada);
+    
+            // Se encontrarmos o objeto correspondente, multiplicamos o preço da pizza pelo preço do tamanho
+            if (pizzaSelecionada) {
+                console.log("calcularValorAcrescimoComum : pizzaSelecionada: " , pizzaSelecionada.price)
+                totalAcrescimoPizza = pizzaSelecionada.price; // Multiplicação do preço do tamanho pelo preço da pizza
+            }
+        } else {
+            // Nenhum valor selecionado, define o valor padrão
+            totalAcrescimoPizza = 0; // Valor padrão (altere conforme necessário)
         }
-        return totalAcrescimoComum;
+    
+        return totalAcrescimoPizza;
     },
 
     calcularValorAcrescimoComum500ML: (acrescimos) => {
         let totalAcrescimoComum = 0;
         // Verifica se há mais de 5 acrescimosComuns
-        if (acrescimos.length > 5) {
-            $.each(acrescimos.slice(5), (i, e) => {
-                // Calcula o valor dos acrescimosComuns além dos primeiros 3
-                totalAcrescimoComum += parseFloat(e.price);
-            });
-        }
+        // if (acrescimos.length > 5) {
+        $.each(acrescimos.slice(0), (i, e) => {
+            // Calcula o valor dos acrescimosComuns além dos primeiros 3
+            totalAcrescimoComum += parseFloat(e.price);
+        });
+        // }
         return totalAcrescimoComum;
     },
 
     calcularValorAcrescimoComum1L: (acrescimos) => {
         let totalAcrescimoComum = 0;
         // Verifica se há mais de 6 acrescimosComuns
-        if (acrescimos.length > 6) {
-            $.each(acrescimos.slice(6), (i, e) => {
-                // Calcula o valor dos acrescimosComuns além dos primeiros 3
-                totalAcrescimoComum += parseFloat(e.price);
-            });
-        }
+        // if (acrescimos.length > 6) {
+        $.each(acrescimos.slice(1), (i, e) => {
+            // Calcula o valor dos acrescimosComuns além dos primeiros 3
+            totalAcrescimoComum += parseFloat(e.price);
+        });
+        // }
         return totalAcrescimoComum;
     },
 
@@ -686,7 +849,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
     criarArraysDeAcrescimos: (i) => {
         // Variável Booleana para saber se existem os arrays de acrescimo do açaí
         const naoExistemOsArrays = !MEU_CARRINHO[i].hasOwnProperty('acrescimosComuns') && !MEU_CARRINHO[i].hasOwnProperty('acrescimosEspeciais');
-
+        console.log(" criarArraysDeAcrescimos: (i): ", naoExistemOsArrays)
         // se não existir os arrays cria os dois e inicializa vazio
         if (naoExistemOsArrays) {
             Object.defineProperty(MEU_CARRINHO[i], 'acrescimosComuns', {
@@ -708,24 +871,24 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
     criarArrayDeSorvetesCoberturas: (i) => {
         // Variável Booleana para saber se existem os arrays de acrescimo do açaí
-        const naoExistemOsArrays = !MEU_CARRINHO[i].hasOwnProperty('sorvetes') && !MEU_CARRINHO[i].hasOwnProperty('coberturas');
-
+        const naoExistemOsArrays = !MEU_CARRINHO[i].hasOwnProperty('pizzaTamanho') && !MEU_CARRINHO[i].hasOwnProperty('acrescimos');
+        console.log(" criarArrayDeSorvetesCoberturas: (i): ", naoExistemOsArrays)
         // se não existir os arrays cria os dois e inicializa vazio
         if (naoExistemOsArrays) {
-            Object.defineProperty(MEU_CARRINHO[i], 'sorvetes', {
+            Object.defineProperty(MEU_CARRINHO[i], 'pizzaTamanho', {
                 writable: true,
                 enumerable: true,
                 configurable: true
             });
 
-            Object.defineProperty(MEU_CARRINHO[i], 'coberturas', {
+            Object.defineProperty(MEU_CARRINHO[i], 'acrescimos', {
                 writable: true,
                 enumerable: true,
                 configurable: true
             });
 
-            MEU_CARRINHO[i].sorvetes = [];
-            MEU_CARRINHO[i].coberturas = [];
+            MEU_CARRINHO[i].pizzaTamanho = [];
+            MEU_CARRINHO[i].acrescimos = [];
         }
     },
 
@@ -752,9 +915,128 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
         });
     },
 
+
+    // adicionarOuRemoverAcrescimoComum2: (idCarrinho, idAcrescimoComum) => {
+    //     acrescimoComum = PIZZAS['pizzaTamanho'].find(acrescimo => idAcrescimoComum == acrescimo.id);
+
+    //     $.each(MEU_CARRINHO, function (index, item) {
+    //         if (item.idCarrinho == idCarrinho) {
+
+    //             let acrescimoExistente = item.pizzaTamanho.find(acrescimo => acrescimo.id == acrescimoComum.id);
+
+    //             if (!acrescimoExistente) {
+    //                 // Adiciona novos itens de acréscimosComuns aos itens antigos
+    //                 item.pizzaTamanho.push(acrescimoComum);
+
+    //             } else {
+
+    //                 item.pizzaTamanho = item.pizzaTamanho.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
+
+    //             }
+    //             return false; // Para de percorrer assim que encontrar o item
+    //         }
+    //     });
+    // },
+
+    // Auqi estava e esta funcinando ... Ate o momento
+
+    adicionarOuRemoverAcrescimoComum2: (idCarrinho, idAcrescimoComum) => {
+        acrescimoComum = PIZZAS['pizzaTamanho'].find(acrescimo => idAcrescimoComum == acrescimo.id);
+    
+        $.each(MEU_CARRINHO, function(index, item) {
+            if (item.idCarrinho == idCarrinho) {
+    
+                let selectValue = $("#selectPizzaTamanho_" + idCarrinho).val();
+              
+                let acrescimoExistente = item.pizzaTamanho.find(acrescimo => acrescimo.id == acrescimoComum?.id);
+    
+                // Obtém o valor selecionado no select
+    
+                if (!acrescimoExistente && selectValue !== "0") {
+                    // Adiciona novo acréscimo comum ao item se não estiver presente e o valor selecionado no select for diferente de 0
+                    item.pizzaTamanho.push(acrescimoComum);
+                } else if (acrescimoExistente && selectValue === "0") {
+                    // Remove o acréscimo comum se estiver presente e o valor selecionado no select for igual a 0
+                    item.pizzaTamanho = item.pizzaTamanho.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
+                }
+    
+                return false; // Para de percorrer assim que encontrar o item
+            }
+        });
+    },
+
+    //  adicionarOuRemoverAcrescimoEspecial2: (idCarrinho, idAcrescimoEspecial) => {
+    //         acrescimoEspecial = PIZZAS['acrescimos'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
+
+    //         $.each(MEU_CARRINHO, function (index, item) {
+    //             if (item.idCarrinho == idCarrinho) {
+    //                 // console.log(acrescimoExistente);
+    //                 let acrescimoExistente = item.acrescimos.find(acrescimo => acrescimo.id == acrescimoEspecial.id);
+
+    //                 if (!acrescimoExistente) {
+    //                     // Adiciona novos itens de acréscimosComuns aos itens antigos
+    //                     item.acrescimos.push(acrescimoEspecial);
+
+    //                 } else {
+
+    //                     item.acrescimos = item.acrescimos.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
+
+    //                 }
+    //                 return false; // Para de percorrer assim que encontrar o item
+    //             }
+    //         });
+    //     },
+
+
+
+
     // adiciona um acrescimo comum ao Açaí
     adicionarOuRemoverAcrescimoEspecial: (idCarrinho, idAcrescimoEspecial) => {
         acrescimoEspecial = ACRESCIMOS['acrescimos-especiais'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
+
+        $.each(MEU_CARRINHO, function (index, item) {
+            if (item.idCarrinho == idCarrinho) {
+
+                let acrescimoExistente = item.acrescimosEspeciais.find(acrescimo => acrescimo.id == acrescimoEspecial.id);
+                console.log(acrescimoExistente);
+                if (!acrescimoExistente) {
+                    // Adiciona novos itens de acréscimosComuns aos itens antigos
+                    item.acrescimosEspeciais.push(acrescimoEspecial);
+
+                } else {
+
+                    item.acrescimosEspeciais = item.acrescimosEspeciais.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
+
+                }
+                return false; // Para de percorrer assim que encontrar o item
+            }
+        });
+    },
+    adicionarOuRemoverAcrescimoEspecial2: (idCarrinho, idAcrescimoEspecial) => {
+        acrescimoEspecial = PIZZAS['acrescimos'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
+
+        $.each(MEU_CARRINHO, function (index, item) {
+            if (item.idCarrinho == idCarrinho) {
+                // console.log(acrescimoExistente);
+                let acrescimoExistente = item.acrescimos.find(acrescimo => acrescimo.id == acrescimoEspecial.id);
+
+                if (!acrescimoExistente) {
+                    // Adiciona novos itens de acréscimosComuns aos itens antigos
+                    item.acrescimos.push(acrescimoEspecial);
+
+                } else {
+
+                    item.acrescimos = item.acrescimos.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
+
+                }
+                return false; // Para de percorrer assim que encontrar o item
+            }
+        });
+    },
+
+
+    adicionarOuRemoverSorvete: (idCarrinho, idAcrescimoEspecial) => {
+        acrescimoEspecial = PIZZAS['acrescimos'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
 
         $.each(MEU_CARRINHO, function (index, item) {
             if (item.idCarrinho == idCarrinho) {
@@ -775,42 +1057,23 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
         });
     },
 
-    adicionarOuRemoverSorvete: (checkbox, idCarrinho, idSorvete) => {
-        sorveteEscolhido = MILK_SHAKE['sorvetes'].find(sorvete => idSorvete == sorvete.id);
 
-        $.each(MEU_CARRINHO, function (index, item) {
-            if (item.idCarrinho == idCarrinho) {
 
-                let sorveteExistente = item.sorvetes.find(sorvete => sorveteEscolhido.id == sorvete.id);
-
-                if (!sorveteExistente && checkbox.checked) {
-                    // Adiciona novo item de sorvete aos itens antigos
-                    item.sorvetes.push(sorveteEscolhido);
-
-                } else {
-
-                    item.sorvetes = item.sorvetes.filter(sorvete => sorveteEscolhido.id !== sorvete.id);
-                }
-                return false; // Para de percorrer assim que encontrar o item
-            }
-        });
-        localStorage.setItem('meu_carrinho', JSON.stringify(MEU_CARRINHO));
-    },
 
     adicionarOuRemoverCobertura: (checkbox, idCarrinho, idCobertura) => {
-        coberturaEscolhida = MILK_SHAKE['coberturas'].find(cobertura => idCobertura == cobertura.id);
+        coberturaEscolhida = PIZZAS['acrescimos'].find(cobertura => idCobertura == cobertura.id);
 
         $.each(MEU_CARRINHO, function (index, item) {
             if (item.idCarrinho == idCarrinho) {
 
 
-                if (item.coberturas.length == 0) {
+                if (item.acrescimos.length == 0) {
 
-                    item.coberturas.push(coberturaEscolhida);
+                    item.acrescimos.push(coberturaEscolhida);
                 }
                 else {
-                    item.coberturas.push(coberturaEscolhida);
-                    item.coberturas.shift();
+                    item.acrescimos.push(coberturaEscolhida);
+                    item.acrescimos.shift();
                 }
 
                 return false; // Para de percorrer assim que encontrar o item
@@ -824,10 +1087,15 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
         checkbox.prop('checked', true);
     },
+    remarcarCheckboxesAcrescimos2: (idCarrinho, idAcrescimo) => {
+        let checkbox = $('#pizzaTamanho_' + idAcrescimo + '_' + idCarrinho);
+
+        checkbox.prop('checked', true);
+    },
 
     remarcarRadiosCoberturas: (idCarrinho, idAcrescimo) => {
-        let checkbox = $('#cobertura_' + idAcrescimo + '_' + idCarrinho);
-
+        let checkbox = $('#' + idAcrescimo + '_' + idCarrinho);
+        console.log("remarcarRadiosCoberturas / ", checkbox)
         checkbox.prop('checked', true);
     },
 
@@ -844,13 +1112,13 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
             setTimeout(() => {
                 $('#acrescimos-' + id).addClass('slideOutUp');
-                $('#sorvetes-' + id).addClass('slideOutUp');
+                $('#pizzaTamanho-' + id).addClass('slideOutUp');
                 setTimeout(() => {
 
                     $('#acrescimos-' + id).removeClass('slideOutUp');
                     $('#acrescimos-' + id).addClass('hidden');
-                    $('#sorvetes-' + id).removeClass('slideOutUp');
-                    $('#sorvetes-' + id).addClass('hidden');
+                    $('#pizzaTamanho-' + id).removeClass('slideOutUp');
+                    $('#pizzaTamanho-' + id).addClass('hidden');
                 }, 150)
 
             }, 200);
@@ -859,7 +1127,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
             $('#ver-acrescimos-down-' + id).addClass('hidden');
             $('#acrescimos-' + id).removeClass('hidden');
             $('#ver-acrescimos-up-' + id).removeClass('hidden');
-            $('#sorvetes-' + id).removeClass('hidden');
+            $('#pizzaTamanho-' + id).removeClass('hidden');
 
         }
     },
@@ -877,10 +1145,12 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
         $('#txtNome').focus()
     },
 
+    // pode ser utel para verificar o tamanho da pizza OK
+
     validarMilkShake: () => {
         for (var i = 0; i < MEU_CARRINHO.length; i++) {
             var milkshake = MEU_CARRINHO[i];
-            var sorvetesSelecionados = milkshake.sorvetes;
+            var sorvetesSelecionados = milkshake.pizzaTamanho;
 
             if (milkshake.id.includes('milk') && (!sorvetesSelecionados || sorvetesSelecionados.length === 0)) {
                 cardapio.metodos.mensagem('Selecione pelo menos um sabor de sorvete para o ' + milkshake.name);
@@ -1103,7 +1373,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                 $("#listaItensResumo").append(itemCarrinhoResumo);
 
-                $.each(e.sorvetes, (indiceSorvete, sorvete) => {
+                $.each(e.pizzaTamanho, (indiceSorvete, sorvete) => {
 
                     let sorvetesResumo = cardapio.templates.acrescimosResumo.replace(/\${nome}/g, sorvete.name);
 
@@ -1111,7 +1381,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                 });
 
-                $.each(e.coberturas, (indiceCobertura, cobertura) => {
+                $.each(e.acrescimos, (indiceCobertura, cobertura) => {
 
                     let coberturaResumo = cardapio.templates.acrescimosResumo.replace(/\${nome}/g, cobertura.name);
 
@@ -1183,23 +1453,23 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
 
                 if (e.id.includes('milk')) {
-                    const sorvetes = e.sorvetes;
-                    const coberturas = e.coberturas
+                    const pizzaTamanho = e.pizzaTamanho;
+                    const acrescimos = e.acrescimos
 
 
                     itens += '\n    *Sorvete(s):*\n';
 
-                    $.each(sorvetes, (i, sorvete) => {
-                        const dots = cardapio.metodos.gerarPontos(sorvetes, sorvete);
+                    $.each(pizzaTamanho, (i, sorvete) => {
+                        const dots = cardapio.metodos.gerarPontos(pizzaTamanho, sorvete);
                         const formattedPrice = `R$ 0,00`;
                         itens += `* ${sorvete.name} ${dots} ${formattedPrice}\n`;
                     });
 
                     itens += '\n    *Cobertura:*\n';
 
-                    maxLength = Math.max(...coberturas.map(item => item.name.length));
-                    $.each(coberturas, (i, cobertura) => {
-                        const dots = cardapio.metodos.gerarPontos(coberturas, cobertura);
+                    maxLength = Math.max(...acrescimos.map(item => item.name.length));
+                    $.each(acrescimos, (i, cobertura) => {
+                        const dots = cardapio.metodos.gerarPontos(acrescimos, cobertura);
                         const formattedPrice = `R$ 0,00`;
                         itens += `* ${cobertura.name} ${dots} ${formattedPrice}\n`;
                     });
@@ -1210,10 +1480,11 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                     const acrescimosComuns = e.acrescimosComuns;
 
-                    if (acrescimosComuns.length > 0) {
+                    if (acrescimosComuns?.length > 0 && !e.id.includes("pizza")) {
                         itens += '\n    *Acréscimos Comuns:*\n';
 
                     }
+
 
                     $.each(acrescimosComuns, (index, acrescimo) => {
 
@@ -1246,7 +1517,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
 
                     const acrescimosEspeciais = e.acrescimosEspeciais;
 
-                    if (acrescimosEspeciais.length > 0) {
+                    if (acrescimosEspeciais?.length > 0) {
                         itens += '\n    *Acréscimos Especiais:*\n';
                     }
                     $.each(acrescimosEspeciais, (i, acrescimo) => {
@@ -1275,7 +1546,7 @@ console.log(MEU_CARRINHO[0].categoria, "tesnado fun")
     },
 
     qtdTotalDeAcrescimosAcai: (itemDeCarrinho) => {
-        return itemDeCarrinho.acrescimosComuns.length + itemDeCarrinho.acrescimosEspeciais.length;
+        return itemDeCarrinho.acrescimosComuns?.length + itemDeCarrinho.acrescimosEspeciais?.length;
     },
 
     carregarBotaoWhatsap: () => {
@@ -1478,20 +1749,29 @@ cardapio.templates = {
             </div>
 
         </div>
-        
-        <div class="col-12 acrescimos animated bounceInDown" id="sorvetes-\${idCarrinho}">
-                <p class="title-produto"><b>Escolha os Sorvetes</b></p>
-                <p>Podem ser selecionados até 2 sabores de sorvete: </p>
 
-                <div id="sorvetes_\${id}_\${idCarrinho}" class="acrescimosComum">
+        <div class="div-descricao-carrinho">
+            <p class=""><b>Descrição: </b>\${dsc}</p>
+            </div>
+            <div class="div-observacao-carrinho">
+            
+<textarea id="observacao-carrinho" cols="37" rows="3" placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
+        
+            </div>
+        
+        <div class="col-12 acrescimos animated bounceInDown" id="pizzaTamanho-\${idCarrinho}">
+                <p class="title-produto"><b>Escolhar o Tamanho Da Pizza</b></p>
+                <p>Escolhar um tamanho disponivel entre P M G e GG: </p>
+
+                <div id="pizzaTamanho_\${id}_\${idCarrinho}" class="acrescimosComum">
 
                 </div>
 
-                <p class="title-produto coberturas"><b>Coberturas</b></p>
-                <p>Escolha um sabor de cobertura: </p>
+                <p class="title-produto acrescimos"><b>Acrescimo</b></p>
+                <p>Escolha a Borda: </p>
 
                 <form>
-                <div id="coberturas_\${id}_\${idCarrinho}" class="acrescimosComum">
+                <div id="acrescimosPizza_\${id}_\${idCarrinho}" class="acrescimosComum">
 
                 </div>
                 </form>       
@@ -1510,18 +1790,25 @@ cardapio.templates = {
         <input type="checkbox" id="\${id}_\${idCarrinho}" class="checkbox-custom" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoEspecial(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
         <label for="\${id}_\${idCarrinho}" class="checkbox-custom-label">\${nome} <br>R$\${preco}</label>
     </div>`,
-
-    sorvetes: `
+    // tamanho da pizza de p a gg
+    // id="selectPizzaTamanho_${e.idCarrinho}"
+    pizzaTamanho: `
     <div class="acrescimo">
-        <input type="checkbox" id="\${desc}_\${id}_\${idCarrinho}" onchange="cardapio.metodos.limitarCheckboxes(this);cardapio.metodos.adicionarOuRemoverSorvete(this, \${idCarrinho}, '\${id}')">
-        <label for="\${desc}_\${id}_\${idCarrinho}">\${nome}</label>
+    </div>`,
+    // Acrescimo da pizza 
+    acrescimosPizza: `
+    <div class="acrescimo">
+        <input type="checkbox" id="\${id}_\${idCarrinho}" class="checkbox-custom" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoEspecial2(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
+        <label for="\${id}_\${idCarrinho}" class="checkbox-custom-label">\${nome} <br>R$\${preco}</label>
     </div>`,
 
-    coberturas: `
-    <div class="acrescimo">
-        <input type="radio" id="\${desc}_\${id}_\${idCarrinho}" name="\${desc}" onchange="cardapio.metodos.adicionarOuRemoverCobertura(this, \${idCarrinho}, '\${id}')">
-        <label for="\${desc}_\${id}_\${idCarrinho}">\${nome}</label>
-    </div>`,
+
+    // acrescimo: `
+    // <div class="acrescimo">
+    //     <input type="checkbox" id="\${id}_\${idCarrinho}" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoComum2(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
+    //     <label for="\${id}_\${idCarrinho}">\${nome}</label>
+    // </div>`,
+
 
     acaiResumo: `
         <div class="col-12 item-carrinho resumo" >
