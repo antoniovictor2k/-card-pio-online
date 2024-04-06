@@ -280,12 +280,12 @@ cardapio.metodos = {
 
             $("#itensCarrinho").html('');
 
-
+// carrinho para mostrar opções de escolhas de acrescimo e tamanho
             $.each(MEU_CARRINHO, (i, e) => {
-                // se for milkshake
+                // se for pizza as escolhar é diferente
                 if (e.id.includes("pizza")) {
 
-                    // chama método que verifica se Arrays de pizzaTamanho e cobertura existem 
+                    // chama método que verifica se Arrays de pizzaTamanho e acrescimo existem 
                     cardapio.metodos.criarArrayDeSorvetesCoberturas(i);
 
                     let itemCarrinho = cardapio.templates.itemCarrinho2.replace(/\${img}/g, e.img)
@@ -312,7 +312,7 @@ cardapio.metodos = {
                     // lista os pizzaTamanho disponíveis para o item
                     // Construa o elemento select antes do loop $.each
                     let selectElement = `<select  id="selectPizzaTamanho_${e.idCarrinho}" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoComum2('${e.idCarrinho}', this.value.split('_')[0]); cardapio.metodos.carregarValores()" class="select-tamanho-pizza">`;
-console.log("Name Select: ", selectElement);
+                    console.log("Name Select: ", selectElement);
                     // Adicione uma opção padrão ao select
                     selectElement += `<option value="0">Selecione o tamanho...</option>`;
 
@@ -325,7 +325,7 @@ console.log("Name Select: ", selectElement);
                     selectElement += `</select>`;
 
                     // Adicione o select ao elemento desejado
-                    $("#pizzaTamanho_" + e.id + "_" + e.idCarrinho).append(selectElement);
+                    $("#pizzaTamanho_" + e.id + "_" + e.idCarrinho).append(selectElement)[-1];
 
                     $.each(PIZZAS['acrescimos'], (idCobertura, acrescimosPizza) => {
                         let acrescimos = cardapio.templates.acrescimosPizza
@@ -341,24 +341,39 @@ console.log("Name Select: ", selectElement);
                         }
                     });
 
-                    // $.each(ACRESCIMOS['acrescimos-especiais'], (idAcrescimoEspecial, acrescimoEspecial) => {
-                    //     let acrecimosEspeciais = cardapio.templates.acrecimosEspecial
-                    //     .replace(/\${id}/g, acrescimoEspecial.id)
-                    //         .replace(/\${nome}/g, acrescimoEspecial.name)
-                    //         .replace(/\${idCarrinho}/g, e.idCarrinho)
-                    //         .replace(/\${preco}/g, acrescimoEspecial.price.toFixed(2).replace('.', ','));
+                 
+                } 
+                  // se for lanche ou bebida as escolhar é diferente
+                else if (e.id.includes("lanche") || e.id.includes("bebida") ) {
 
-                    //         $("#acrescimoEspecial_" + e.id + "_" + e.idCarrinho).append(acrecimosEspeciais);
+                    // chama método cria os Arrays de acrescimos 
+                    cardapio.metodos.criarArraysDeAcrescimos(i);
 
-                    //         // remarcar checkbox de acrescimo especial
-                    //         if (MEU_CARRINHO[i].acrescimosEspeciais.some(obj => obj.id === acrescimoEspecial.id)) {
-                    //         cardapio.metodos.remarcarCheckboxesAcrescimos(e.idCarrinho, acrescimoEspecial.id);
-                    //     }
-                    // });
+                    let itemCarrinho = cardapio.templates.itemCarrinho3.replace(/\${img}/g, e.img)
+                        .replace(/\${nome}/g, e.name)
+                        .replace(/\${dsc}/g, e.dsc)
+                        .replace(/\${preco}/g, e.price.toFixed(2).replace('.', ','))
+                        .replace(/\${id}/g, e.id)
+                        .replace(/\${qntd}/g, e.qntd)
+                        .replace(/\${idCarrinho}/g, e.idCarrinho);
 
+                    $("#itensCarrinho").append(itemCarrinho);
 
-                    // se for Creme de Acaí ou Vitamina
-                } else {
+                    // deixar botão de menos com item de excluir se quantidade for 1
+                    let qtdAtual = parseInt($('#qntd-carrinho_' + e.id + '_' + e.idCarrinho).text());
+                    let icon = $('#icon-menos-' + e.id + '_' + e.idCarrinho);
+                    let btn = $('#btn-menos-' + e.id + '_' + e.idCarrinho);
+
+                    if (qtdAtual == 1) {
+                        icon.removeClass('fa-minus');
+                        icon.addClass('fa-times');
+                        btn.attr("style", "background-color: var(--color-red); border: var(--color-red);")
+                    }
+
+                    
+                }
+                // se não for lanche ou bebida ou pizza as escolhar é diferente
+                else {
 
                     // chama método cria os Arrays de acrescimos 
                     cardapio.metodos.criarArraysDeAcrescimos(i);
@@ -373,8 +388,6 @@ console.log("Name Select: ", selectElement);
 
                     $("#itensCarrinho").append(itemCarrinho);
 
-
-
                     const precoAcrescimo = ACRESCIMOS['acrescimos-comum'][0].price.toFixed(2).replace(".", ",");
 
                     console.log(`MEU_CARRINHO[0].categoria == "acai"`)
@@ -384,10 +397,6 @@ console.log("Name Select: ", selectElement);
                     } else {
                         $('#p-' + e.idCarrinho).text(`Pode selecionar até 3 que não havera alteração no preço total, acima de 3 será cobrado R$ ${precoAcrescimo} por cada acréscimo comum adicional:`);
                     }
-
-
-
-                    // estamos aqui 25/03
 
                     // deixar botão de menos com item de excluir se quantidade for 1
                     let qtdAtual = parseInt($('#qntd-carrinho_' + e.id + '_' + e.idCarrinho).text());
@@ -399,9 +408,6 @@ console.log("Name Select: ", selectElement);
                         icon.addClass('fa-times');
                         btn.attr("style", "background-color: var(--color-red); border: var(--color-red);")
                     }
-
-                    // lista os acrescimos comuns disponíveis para o item
-                    // if (MEU_CARRINHO[0]?.categoria == "acai") {
 
                     $.each(ACRESCIMOS['acrescimos-comum'], (idAcrescimoComum, acrescimoComum) => {
                         let acrecimosComuns = cardapio.templates.acrescimoComum
@@ -433,8 +439,6 @@ console.log("Name Select: ", selectElement);
                         }
                     });
 
-
-                    // Estamos aqui ok tentando add pizza tamanho personalizado
                 }
             });
 
@@ -561,7 +565,7 @@ console.log("Name Select: ", selectElement);
                 var select = document.getElementById("txtBairro");
                 var selectedOption = select.options[select.selectedIndex].value;
 
-                // Coloque aqui o código que deseja executar quando o select for alterado
+                // Taxas de entregas a depender do bairro;
 
                 switch (selectedOption) {
                     case "Cleto":
@@ -578,14 +582,12 @@ console.log("Name Select: ", selectElement);
                         VALOR_ENTREGA = 4;
                         break;
                     case "Demais Bairros":
-                        VALOR_ENTREGA = 8;
+                        VALOR_ENTREGA = 12;
                         break;
                     default:
                         VALOR_ENTREGA = 0;
                         break;
                 }
-
-
 
                 // Atualiza o rótulo da entrega
                 $("#lblEntrega").text(
@@ -599,7 +601,6 @@ console.log("Name Select: ", selectElement);
             });
 
         $.each(MEU_CARRINHO, (i, e) => {
-            console.log("MEU_CARRINHO: ", MEU_CARRINHO)
             let VALOR_ITEM = 0;
 
             if (!e.id.includes('milk')) {
@@ -608,40 +609,33 @@ console.log("Name Select: ", selectElement);
                 if (e.id.includes('1l')) {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum1L(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
 
-                    // se for acai até 700ML
+                    // se for acai for algum que tenha 0ML
                 }
-                if (e.id.includes('0ml')) {
+                else if (e.id.includes('0ml')) {
                     VALOR_ITEM = parseFloat(e.price) + cardapio.metodos.calcularValorAcrescimoComum500ML(e.acrescimosComuns) + cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimosEspeciais);
                     console.log("1100; ;", e.acrescimosComuns);
                     console.log("1100; ;", VALOR_ITEM);
 
-                    // se for acai até 700ML
+                    // Se nenhuma das opções anteriores funciona
                 }
                 else {
                     let acrescimoComum = 0
                     // Verifica se 'e' está definido e possui a propriedade 'pizzaTamanho'
                     if (e && e.pizzaTamanho) {
                         // Chama a função calcularValorAcrescimoComum passando 'e.pizzaTamanho' e 'e'
-
-                         acrescimoComum = cardapio.metodos.calcularValorAcrescimoComum(e.pizzaTamanho, e);
+                        acrescimoComum = cardapio.metodos.calcularValorAcrescimoComum(e.pizzaTamanho, e);
                         // Verifica se 'e' está definido e possui a propriedade 'acrescimos'
-                        console.log("1110; ;", e.pizzaTamanho);
+                        console.log("e.pizzaTamanho 2000 ; ;", e.pizzaTamanho);
                         let acrescimoEspecial = e && e.acrescimos ? cardapio.metodos.calcularValorAcrescimoEspecial(e.acrescimos) : 0;
                         // Calcula o VALOR_ITEM somando o preço original, os acréscimos comuns e os acréscimos especiais
                         VALOR_ITEM = (parseFloat(e.price) * acrescimoComum) + acrescimoEspecial;
                     } else {
                         // Define VALOR_ITEM como o preço original se 'e' não estiver definido ou não possuir 'pizzaTamanho'
                         VALOR_ITEM = parseFloat(e.price);
-                    }
-                    console.log("1110; ;", e.pizzaTamanho);
-                    console.log("ii? ", VALOR_ITEM);
-                    // console.log("ii? ", calcularValorAcrescimoComum?);
-                }
-                console.log();
-
+                    }   
+                }   
             }
-
-            // se for milkshake
+            // se for milkshake (desativado)
             else {
                 VALOR_ITEM = parseFloat(e.price);
             }
@@ -651,94 +645,50 @@ console.log("Name Select: ", selectElement);
 
             // atualiza valor do carrinho com valor do item * quantidade daquele item
             VALOR_CARRINHO += parseFloat(VALOR_ITEM * e.qntd);
-
-            // obs aqui
             // mostra total do carrinho pedidos sem o frente
             if ((i + 1) == MEU_CARRINHO.length) {
                 $('#lblPedido').text(`R$ ${VALOR_CARRINHO.toFixed(2).replace('.', ',')}`);
-
             }
             // mostra entrega
             if ((i + 1) == MEU_CARRINHO.length) {
                 $('#lblEntrega').text(`R$ ${VALOR_ENTREGA.toFixed(2).replace('.', ',')}`);
-
             }
             // mostra total do carrinho com frente e tudo
             if ((i + 1) == MEU_CARRINHO.length) {
                 const valor_total = VALOR_CARRINHO + VALOR_ENTREGA;
                 $('#lblValorTotal').text(`R$ ${valor_total.toFixed(2).replace('.', ',')}`);
-
             }
-
             // salva valor do item na memória
             e.valorItem = VALOR_ITEM;
-
             localStorage.setItem('meu_carrinho', JSON.stringify(MEU_CARRINHO));
         });
 
     },
 
 
-
     calcularValorAcrescimoComum: (pizzaTamanho, e) => {
         let totalAcrescimoPizza = 0;
-    
+
         // Obtém o valor selecionado no select
         let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
-        console.log("calcularValorAcrescimoComum :price: " , e.price)
         // Verifica se algum valor foi selecionado
         if (selectValue !== "0") {
             let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
-    
+
             // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
             let pizzaSelecionada = pizzaTamanho.find(item => item.id === idPizzaSelecionada);
-    
+
             // Se encontrarmos o objeto correspondente, multiplicamos o preço da pizza pelo preço do tamanho
             if (pizzaSelecionada) {
-                console.log("calcularValorAcrescimoComum : pizzaSelecionada: " , pizzaSelecionada.price)
+                console.log("calcularValorAcrescimoComum : pizzaSelecionada: ", pizzaSelecionada.price)
                 totalAcrescimoPizza = pizzaSelecionada.price; // Multiplicação do preço do tamanho pelo preço da pizza
             }
         }
-    
+
         return totalAcrescimoPizza;
     },
 
-    // estava funcionando 
-
-
-    // calcularValorAcrescimoComum: (pizzaTamanho, e) => {
-    //     let totalAcrescimoPizza = 0;
-    
-    //     // Obtém o valor selecionado no select
-    //     let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
-    //     console.log("calcularValorAcrescimoComum :price: " , e.price)
-    //     // Verifica se algum valor foi selecionado
-    //     if (selectValue !== "0") {
-    //         let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
-    
-    //         // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
-    //         let pizzaSelecionada = pizzaTamanho.find(item => item.id === idPizzaSelecionada);
-    
-    //         // Se encontrarmos o objeto correspondente, multiplicamos o preço da pizza pelo preço do tamanho
-    //         if (pizzaSelecionada) {
-    //             console.log("calcularValorAcrescimoComum : pizzaSelecionada: " , pizzaSelecionada.price)
-    //             totalAcrescimoPizza = pizzaSelecionada.price; // Multiplicação do preço do tamanho pelo preço da pizza
-    //         }
-    //     } else {
-    //         // Nenhum valor selecionado, define o valor padrão
-    //         totalAcrescimoPizza = 0; // Valor padrão (altere conforme necessário)
-    //     }
-    
-    //     return totalAcrescimoPizza;
-    // },
-
-
-    // fim 
-
-
-
-
-
+   
     calcularValorAcrescimoComum500ML: (acrescimos) => {
         let totalAcrescimoComum = 0;
         // Verifica se há mais de 5 acrescimosComuns
@@ -811,7 +761,7 @@ console.log("Name Select: ", selectElement);
                 enumerable: true,
                 configurable: true
             });
-//  raiva codigo
+            //  raiva codigo
             MEU_CARRINHO[i].pizzaTamanho = [];
             MEU_CARRINHO[i].acrescimos = [];
         }
@@ -843,16 +793,16 @@ console.log("Name Select: ", selectElement);
 
     adicionarOuRemoverAcrescimoComum2: (idCarrinho, idAcrescimoComum) => {
         acrescimoComum = PIZZAS['pizzaTamanho'].find(acrescimo => idAcrescimoComum == acrescimo.id);
-    
-        $.each(MEU_CARRINHO, function(index, item) {
+
+        $.each(MEU_CARRINHO, function (index, item) {
             if (item.idCarrinho == idCarrinho) {
-    
+
                 let selectValue = $("#selectPizzaTamanho_" + idCarrinho).val();
-              
+
                 let acrescimoExistente = item.pizzaTamanho?.find(acrescimo => acrescimo.id == acrescimoComum?.id);
-    
+
                 // Obtém o valor selecionado no select
-    
+
                 if (!acrescimoExistente && selectValue !== "0") {
                     // Adiciona novo acréscimo comum ao item se não estiver presente e o valor selecionado no select for diferente de 0
                     item.pizzaTamanho.push(acrescimoComum);
@@ -860,13 +810,13 @@ console.log("Name Select: ", selectElement);
                     // Remove o acréscimo comum se estiver presente e o valor selecionado no select for igual a 0
                     item.pizzaTamanho = item.pizzaTamanho.filter(acrescimo => acrescimo.id !== acrescimoExistente.id);
                 }
-    
+
                 return false; // Para de percorrer assim que encontrar o item
             }
         });
     },
 
-    
+
     // adiciona um acrescimo comum ao Açaí
     adicionarOuRemoverAcrescimoEspecial: (idCarrinho, idAcrescimoEspecial) => {
         acrescimoEspecial = ACRESCIMOS['acrescimos-especiais'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
@@ -910,8 +860,6 @@ console.log("Name Select: ", selectElement);
             }
         });
     },
-
-
     adicionarOuRemoverSorvete: (idCarrinho, idAcrescimoEspecial) => {
         acrescimoEspecial = PIZZAS['acrescimos'].find(acrescimo => idAcrescimoEspecial == acrescimo.id);
 
@@ -933,10 +881,6 @@ console.log("Name Select: ", selectElement);
             }
         });
     },
-
-
-
-
     adicionarOuRemoverCobertura: (checkbox, idCarrinho, idCobertura) => {
         coberturaEscolhida = PIZZAS['acrescimos'].find(cobertura => idCobertura == cobertura.id);
 
@@ -958,7 +902,6 @@ console.log("Name Select: ", selectElement);
         });
         localStorage.setItem('meu_carrinho', JSON.stringify(MEU_CARRINHO));
     },
-
     remarcarCheckboxesAcrescimos: (idCarrinho, idAcrescimo) => {
         let checkbox = $('#' + idAcrescimo + '_' + idCarrinho);
 
@@ -969,13 +912,11 @@ console.log("Name Select: ", selectElement);
 
         checkbox.prop('checked', true);
     },
-
     remarcarRadiosCoberturas: (idCarrinho, idAcrescimo) => {
         let checkbox = $('#' + idAcrescimo + '_' + idCarrinho);
         console.log("remarcarRadiosCoberturas / ", checkbox)
         checkbox.prop('checked', true);
     },
-
     remarcarCheckboxesSorvetes: (idCarrinho, idAcrescimo) => {
         let checkbox = $('#sorvete_' + idAcrescimo + '_' + idCarrinho);
 
@@ -1009,15 +950,19 @@ console.log("Name Select: ", selectElement);
         }
     },
 
-
+    // Verificar se tamanho da pizza foi escolhido para continua....
     carregarEndereco: () => {
         if (MEU_CARRINHO.length <= 0) {
             cardapio.metodos.mensagem('Seu carrinho esta vazio');
             return;
         }
-
         if (!cardapio.metodos.validarMilkShake()) return;
-
+        let SelectTamanho = $(`.select-tamanho-pizza`).val().trim();
+        if (SelectTamanho == '0') {
+            cardapio.metodos.mensagem('Por favor escolhar um tamanho para a pizza.');
+            $(`.select-tamanho-pizza`).focus();
+            return;
+        }
         cardapio.metodos.carregarEtapa(2);
         $('#txtNome').focus()
     },
@@ -1112,18 +1057,17 @@ console.log("Name Select: ", selectElement);
         let cep = $('#txtCEP').val().trim();
         let endereco = $('#txtEndereco').val().trim();
         let bairro = $('#txtBairro').val().trim();
+        // let observacao = $('#observacao-carrinho').val().trim();
         let cidade = $('#txtCidade').val().trim();
         let uf = $('#ddlUf').val().trim();
         let numero = $('#txtNumero').val().trim();
         let complemento = $('#txtComplemento').val().trim();
-
+        
         let pagamento = $('#ddlFormaPagamento').val().trim();
         let troco = $('#ddlTroco').val().trim();
-
+        
         var radioEntrega = document.getElementById("entrega");
-
-
-
+        
 
         if (nome.length <= 3) {
             cardapio.metodos.mensagem('Por favor informe o Nome.');
@@ -1177,7 +1121,6 @@ console.log("Name Select: ", selectElement);
             return;
         }
 
-
         if (pagamento == "Dinheiro" && troco == "0") {
             cardapio.metodos.mensagem("Por favor informe Troco Para Quanto.");
             $("#ddlTroco").focus();
@@ -1202,15 +1145,16 @@ console.log("Name Select: ", selectElement);
 
         cardapio.metodos.carregarEtapa(3);
         cardapio.metodos.carregarResumo();
-
     },
 
     carregarResumo: () => {
         $('#listaItensResumo').html('');
-
         $.each(MEU_CARRINHO, (i, e) => {
 
-            if (!e.id.includes("milk") && !e.id.includes("pizza")) {
+            const trueProdutosSemAcrescimo = e.id.includes("lanche") || e.id.includes("bebida");
+            const trueAcai = e.id.includes("acai");
+
+            if (trueAcai) {
                 let itemCarrinhoResumo = cardapio.templates.acaiResumo.replace(/\${id}/g, e.id)
                     .replace(/\${idCarrinho}/g, e.idCarrinho)
                     .replace(/\${img}/g, e.img)
@@ -1238,9 +1182,22 @@ console.log("Name Select: ", selectElement);
 
                 });
             }
+           else if (trueProdutosSemAcrescimo) {
+                let itemCarrinhoResumo = cardapio.templates.ProdutoSemAcrescimoResumo.replace(/\${id}/g, e.id)
+                    .replace(/\${idCarrinho}/g, e.idCarrinho)
+                    .replace(/\${img}/g, e.img)
+                    .replace(/\${nome}/g, e.name)
+                    .replace(/\${preco}/g, e.valorItem.toFixed(2).replace('.', ','))
+                    .replace(/\${qntd}/g, e.qntd)
+                    .replace(/\${qtdAcrescimos}/g, cardapio.metodos.qtdTotalDeAcrescimosAcai(e));
+
+
+                $("#listaItensResumo").append(itemCarrinhoResumo);
+
+            }
 
             else {
-                let itemCarrinhoResumo = cardapio.templates.milkShakeResumo.replace(/\${id}/g, e.id)
+                let itemCarrinhoResumo = cardapio.templates.pizzaResumo.replace(/\${id}/g, e.id)
                     .replace(/\${idCarrinho}/g, e.idCarrinho)
                     .replace(/\${img}/g, e.img)
                     .replace(/\${nome}/g, e.name)
@@ -1250,13 +1207,23 @@ console.log("Name Select: ", selectElement);
 
                 $("#listaItensResumo").append(itemCarrinhoResumo);
 
-                $.each(e.pizzaTamanho, (indiceSorvete, sorvete) => {
+                // Obtém o valor selecionado no select
+                let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
 
-                    let sorvetesResumo = cardapio.templates.acrescimosResumo.replace(/\${nome}/g, sorvete.name);
+                // Verifica se algum valor foi selecionado
+                if (selectValue !== "0") {
+                    let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
 
-                    $('#sorvetesResumo_' + e.id + '_' + e.idCarrinho).append(sorvetesResumo);
+                    // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
+                    let pizzaSelecionada = e.pizzaTamanho.find(item => item.id === idPizzaSelecionada);
 
-                });
+                    // Verifica se o tamanho da pizza selecionado foi encontrado
+                    if (pizzaSelecionada) {
+                        // Exibe os detalhes apenas para o tamanho selecionado
+                        let sorvetesResumo = cardapio.templates.acrescimosResumo.replace(/\${nome}/g, pizzaSelecionada.name);
+                        $('#sorvetesResumo_' + e.id + '_' + e.idCarrinho).append(sorvetesResumo);
+                    }
+                }
 
                 $.each(e.acrescimos, (indiceCobertura, cobertura) => {
 
@@ -1325,24 +1292,42 @@ console.log("Name Select: ", selectElement);
 
 
             $.each(MEU_CARRINHO, (i, e) => {
+                let observacao = $(`#observacao-carrinho-${e.idCarrinho}`).val().trim();
 
-                itens += `\n\n*${e.qntd}x ${e.name} ....... R$ ${e.valorItem.toFixed(2).replace('.', ',')}*\n`;
+                console.log("OBS:: ", observacao)
+                // console.log("PQPORQUAL??:: ", e.pizzaTamanho[e.pizzaTamanho.length - 1])
+                console.log(";?? ", MEU_CARRINHO)
+                // aqui vai fica a observação de cada pedido ok,
+                itens += `\n\n*${e.qntd}x ${e.name} ....... R$ ${e.valorItem.toFixed(2).replace('.', ',')}*\n*OBS: ${observacao}*\n`;
 
 
-                if (e.id.includes('milk')) {
+                if (e.id.includes('pizza')) {
                     const pizzaTamanho = e.pizzaTamanho;
                     const acrescimos = e.acrescimos
+                    let selectValue = $("#selectPizzaTamanho_" + e.idCarrinho).val();
 
+                    console.log("nameDePizza:: ", pizzaTamanho);
+                    itens += '\n    *Tamanho:*\n';
+                    // add o tamanho da pizza no whatsapp da pizza 
 
-                    itens += '\n    *Sorvete(s):*\n';
+                    // Verifica se algum valor foi selecionado
+                    if (selectValue !== "0") {
+                        let idPizzaSelecionada = selectValue.split('_')[0]; // Obtém o primeiro elemento do array após dividir o valor pelo caractere '_'
 
-                    $.each(pizzaTamanho, (i, sorvete) => {
-                        const dots = cardapio.metodos.gerarPontos(pizzaTamanho, sorvete);
-                        const formattedPrice = `R$ 0,00`;
-                        itens += `* ${sorvete.name} ${dots} ${formattedPrice}\n`;
-                    });
+                        // Encontra o objeto correspondente ao ID da pizza no array pizzaTamanho
+                        let pizzaSelecionada = e.pizzaTamanho.find(item => item.id === idPizzaSelecionada);
 
-                    itens += '\n    *Cobertura:*\n';
+                        // Verifica se o tamanho da pizza selecionado foi encontrado
+                        if (pizzaSelecionada) {
+                            // Exibe os detalhes apenas para o tamanho selecionado
+                            itens += `* ${pizzaSelecionada.name}\n`;
+
+                        }
+                    }
+
+                    // itens += `* ${pizzaTamanho.name}\n`;
+
+                    itens += '\n    *Acréscimo(s):*\n';
 
                     maxLength = Math.max(...acrescimos.map(item => item.name.length));
                     $.each(acrescimos, (i, cobertura) => {
@@ -1577,7 +1562,7 @@ cardapio.templates = {
             </div>
             <div class="div-observacao-carrinho">
             
-<textarea id="observacao-carrinho" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
+            <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
             </div>
 
@@ -1598,7 +1583,6 @@ cardapio.templates = {
         </div>
     </div>    
     `,
-
     itemCarrinho2: `
     <div class="itemCarrinho" id="item-carrinho_\${id}_\${idCarrinho}">
         <div class="col-12 item-carrinho">
@@ -1632,7 +1616,7 @@ cardapio.templates = {
             </div>
             <div class="div-observacao-carrinho">
             
-<textarea id="observacao-carrinho"class="observacao-carrinho" placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
+            <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
             </div>
         
@@ -1651,7 +1635,45 @@ cardapio.templates = {
         </div>
     </div>    
     `,
+    itemCarrinho3: `
+    <div class="itemCarrinho" id="item-carrinho_\${id}_\${idCarrinho}">
+        <div class="col-12 item-carrinho">
+            <div class="img-produto">
+                <img src="\${img}"
+                    alt="">
+            </div>
+            <div class="dados-produtos">
+                <p class="title-produto"><b>\${nome}</b></p>
+                <p class="price-produto"><b id="preco_\${id}_\${idCarrinho}">R$ \${preco}</b></p>
+            </div>
+           
+            <div class="add-carrinho">
+                    <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
+                    <i class="fas fa-arrow-down no-mobile"></i>
+                    </button>
+                    <button class="btn-purple btn-sm ver-acrescimos no-mobile" id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
+                    <i class="fas fa-arrow-up hd"></i> 
+                </button>
+                <span class="btn-menos" id="btn-menos-\${id}_\${idCarrinho}" onclick="cardapio.metodos.diminuirQuantidadeCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-minus" id="icon-menos-\${id}_\${idCarrinho}"></i></span>
+                <span class="add-numero-itens" id="qntd-carrinho_\${id}_\${idCarrinho}">\${qntd}</span>
+                <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidadeCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-plus"></i></span>
+                <span class="btn-remove no-mobile" onclick="cardapio.metodos.removerItemCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-times"></i></span>
 
+            </div>
+
+        </div>
+
+        <div class="div-descricao-carrinho">
+            <p class=""><b>Descrição: </b>\${dsc}</p>
+            </div>
+            <div class="div-observacao-carrinho">
+            
+            <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
+        
+            </div>
+        
+    </div>    
+    `,
 
     acrescimoComum: `
     <div class="acrescimo">
@@ -1663,26 +1685,14 @@ cardapio.templates = {
         <input type="checkbox" id="\${id}_\${idCarrinho}" class="checkbox-custom" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoEspecial(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
         <label for="\${id}_\${idCarrinho}" class="checkbox-custom-label">\${nome} <br>R$\${preco}</label>
     </div>`,
-    // tamanho da pizza de p a gg
-    // id="selectPizzaTamanho_${e.idCarrinho}"
     pizzaTamanho: `
     <div class="acrescimo">
     </div>`,
-    // Acrescimo da pizza 
     acrescimosPizza: `
     <div class="acrescimo">
         <input type="checkbox" id="\${id}_\${idCarrinho}" class="checkbox-custom" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoEspecial2(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
         <label for="\${id}_\${idCarrinho}" class="checkbox-custom-label">\${nome} <br>R$\${preco}</label>
     </div>`,
-
-
-    // acrescimo: `
-    // <div class="acrescimo">
-    //     <input type="checkbox" id="\${id}_\${idCarrinho}" onchange="cardapio.metodos.adicionarOuRemoverAcrescimoComum2(\${idCarrinho}, '\${id}'); cardapio.metodos.carregarValores()">
-    //     <label for="\${id}_\${idCarrinho}">\${nome}</label>
-    // </div>`,
-
-
     acaiResumo: `
         <div class="col-12 item-carrinho resumo" >
             <div class="img-produto-resumo">
@@ -1708,8 +1718,27 @@ cardapio.templates = {
             </p>
         </div>
     `,
+    ProdutoSemAcrescimoResumo: `
+        <div class="col-12 item-carrinho resumo" >
+            <div class="img-produto-resumo">
+                <img src="\${img}">
+            </div>
+            <div class="dados-produtos">
 
-    milkShakeResumo: `
+                <p class="title-produto-resumo">
+                        <b>\${nome}</b>
+                </p>
+
+                <p class="price-produto-resumo">
+                    <b>R$\${preco}</b>
+                </p>
+            </div>
+            <p class="quantidade-produto-resumo">
+                x <b>\${qntd}</b>
+            </p>
+        </div>
+    `,
+    pizzaResumo: `
         <div class="col-12 item-carrinho resumo" >
             <div class="img-produto-resumo">
                 <img src="\${img}">
@@ -1739,7 +1768,6 @@ cardapio.templates = {
             </p>
         </div>
     `,
-
     acrescimosResumo: `
     <div class="acrescimo">
         <b>*</b>\${nome}, 
