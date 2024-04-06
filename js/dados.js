@@ -61,7 +61,7 @@ var MENU = {
             "img": "./img/PIZZA/pizzaQuatroQueijo.jpg",
             "name": "Pizza de Quatro Queijo",
             "dsc": "Pizza de Quatro Queijo",
-            "price": 22.22
+            "price": 19.00
         }
        
     ],
@@ -229,108 +229,6 @@ var ACRESCIMOS = {
     ]
 }
 
-var MILK_SHAKE = {
-    "sorvetes": [
-        {
-            "id": "chocolate",
-            "name": "Chocolate",
-            "desc": "sorvete"
-        },
-        {
-            "id": "morango",
-            "name": "Morango",
-            "desc": "sorvete"
-        },     
-        {
-            "id": "coco",
-            "name": "Coco",
-            "desc": "sorvete"
-        },
-        {
-            "id": "sensacao",
-            "name": "Sensação",
-            "desc": "sorvete"
-        },
-        {
-            "id": "amendoim",
-            "name": "Amendoim",
-            "desc": "sorvete"
-        },
-        {
-            "id": "bom-bom",
-            "name": "Bom-Bom",
-            "desc": "sorvete"
-        },
-        {
-            "id": "chicletes",
-            "name": "Chicletes",
-            "desc": "sorvete"
-        },
-        {
-            "id": "ninho",
-            "name": "Ninho",
-            "desc": "sorvete"
-        },
-        {
-            "id": "talento",
-            "name": "Talento",
-            "desc": "sorvete"
-        },
-
-        {
-            "id": "laka",
-            "name": "Laka",
-            "desc": "sorvete"
-        },
-        
-        {
-            "id": "limao",
-            "name": "Limão",
-            "desc": "sorvete"
-        },
-
-    ],
-    "coberturas": [
-        {
-            "id": "chocolate",
-            "name": "Chocolate",
-            "desc": "cobertura"
-        },
-        {
-            "id": "morango",
-            "name": "Morango",
-            "desc": "cobertura"
-        },     
-        {
-            "id": "leite-condensado",
-            "name": "Leite Condensado",
-            "desc": "cobertura"
-        },
-        {
-            "id": "doce-de-leite",
-            "name": "Doce de Leite",
-            "desc": "cobertura"
-        },
-        {
-            "id": "caramelo",
-            "name": "Caramelo",
-            "desc": "cobertura"
-        },
-        {
-            "id": "maracuja",
-            "name": "Maracujá",
-            "desc": "cobertura"
-        },
-        {
-            "id": "uva",
-            "name": "Uva",
-            "desc": "cobertura"
-        },
-
-    ]
-
-}
-
 var PIZZAS = {
     "pizzaTamanho": [
         {
@@ -413,5 +311,5 @@ function carregarDadosNovamente() {
     MEU_CARRINHO = [];
     localStorage.setItem('meu_carrinho', JSON.stringify([MEU_CARRINHO]));
     recarregarScript();
-    //console.log('O console foi aberto..');
+    console.log('O console foi aberto..');
 }

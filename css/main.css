@@ -703,7 +703,8 @@ footer {
     outline: none;
     /* Remove a borda de contorno do navegador */
 }
-.observacao-carrinho{
+
+.observacao-carrinho {
     width: 600px;
     height: 70px;
 }
@@ -908,7 +909,7 @@ select.form-control {
 
 .select-tamanho-pizza option {
     cursor: pointer;
-   
+
 }
 
 
@@ -1143,6 +1144,7 @@ img[src="https://cdn.000webhost.com/000webhost/logo/footer-powered-by-000webhost
 .m-footer {
     user-select: none;
 }
-.observacao-carrinho{
+
+.observacao-carrinho {
     user-select: text;
 }
