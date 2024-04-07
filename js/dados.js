@@ -42,7 +42,7 @@ var MENU = {
             "categoria": "pizza",
             "img": "./img/PIZZA/pizzaCalabresa2.jpg",
             "name": "Pizza de Calabresa",
-            "dsc": "pizza de calabresa",
+            "dsc": "pizza de calabresa com cebola e tomate e varios outras opções para voce cliente",
             "price": 20.00
         },
 
@@ -302,14 +302,14 @@ var consoleAberto = false;
 // Verifique regularmente se o console está aberto
 setInterval(function() {
     if (window.outerWidth - window.innerWidth > 200 || window.outerHeight - window.innerHeight > 200) {
-        carregarDadosNovamente();
+        // carregarDadosNovamente();
 
     }
 }, 5000);
 
-function carregarDadosNovamente() {
-    MEU_CARRINHO = [];
-    localStorage.setItem('meu_carrinho', JSON.stringify([MEU_CARRINHO]));
-    recarregarScript();
-    console.log('O console foi aberto..');
-}
+// function carregarDadosNovamente() {
+//     MEU_CARRINHO = [];
+//     localStorage.setItem('meu_carrinho', JSON.stringify([MEU_CARRINHO]));
+//     recarregarScript();
+//     console.log('O console foi aberto..');
+// }

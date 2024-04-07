@@ -838,6 +838,8 @@ cardapio.metodos = {
         checkbox.prop('checked', true);
     },
 
+
+    // Aqui Voce consegue oculta com o ver acrescimo!
     mostrarAcrescimos(id, mostrar) {
         if (!mostrar) {
             $('#ver-acrescimos-up-' + id).addClass('hidden');
@@ -846,12 +848,15 @@ cardapio.metodos = {
             setTimeout(() => {
                 $('#acrescimos-' + id).addClass('slideOutUp');
                 $('#pizzaTamanho-' + id).addClass('slideOutUp');
+                $('#observacao-carrinho-' + id).addClass('slideOutUp');
                 setTimeout(() => {
 
                     $('#acrescimos-' + id).removeClass('slideOutUp');
                     $('#acrescimos-' + id).addClass('hidden');
                     $('#pizzaTamanho-' + id).removeClass('slideOutUp');
                     $('#pizzaTamanho-' + id).addClass('hidden');
+                    $('#observacao-carrinho-' + id).removeClass('slideOutUp');
+                    $('#observacao-carrinho-' + id).addClass('hidden');
                 }, 150)
 
             }, 200);
@@ -859,6 +864,7 @@ cardapio.metodos = {
         else {
             $('#ver-acrescimos-down-' + id).addClass('hidden');
             $('#acrescimos-' + id).removeClass('hidden');
+            $('#observacao-carrinho-' + id).removeClass('hidden');
             $('#ver-acrescimos-up-' + id).removeClass('hidden');
             $('#pizzaTamanho-' + id).removeClass('hidden');
 
@@ -1432,10 +1438,10 @@ cardapio.templates = {
             </div>
            
             <div class="add-carrinho">
-                <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
+                <button class="btn-purple btn-sm mobile-flex   ver-acrescimos hidden" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
                     <i class="fas fa-arrow-down"></i>
                 </button>
-                <button class="btn-purple btn-sm ver-acrescimos no-mobile" id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
+                <button class="btn-purple btn-sm ver-acrescimos mobile-flex " id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
                     <i class="fas fa-arrow-up hd"></i> 
                 </button>
                 <span class="btn-menos" id="btn-menos-\${id}_\${idCarrinho}" onclick="cardapio.metodos.diminuirQuantidadeCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-minus" id="icon-menos-\${id}_\${idCarrinho}"></i></span>
@@ -1448,7 +1454,7 @@ cardapio.templates = {
             <div class="div-descricao-carrinho">
             <p class=""><b>Descrição: </b>\${dsc}</p>
             </div>
-            <div class="div-observacao-carrinho">
+            <div class="div-observacao-carrinho animated bounceInDown">
             
             <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
@@ -1484,10 +1490,10 @@ cardapio.templates = {
             </div>
            
             <div class="add-carrinho">
-                    <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
-                    <i class="fas fa-arrow-down no-mobile"></i>
+                    <button class="btn-purple btn-sm mobile-flex ver-acrescimos  hidden" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
+                    <i class="fas fa-arrow-down"></i>
                     </button>
-                    <button class="btn-purple btn-sm ver-acrescimos no-mobile" id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
+                    <button class="btn-purple btn-sm ver-acrescimos mobile-flex " id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
                     <i class="fas fa-arrow-up hd"></i> 
                 </button>
                 <span class="btn-menos" id="btn-menos-\${id}_\${idCarrinho}" onclick="cardapio.metodos.diminuirQuantidadeCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-minus" id="icon-menos-\${id}_\${idCarrinho}"></i></span>
@@ -1502,9 +1508,9 @@ cardapio.templates = {
         <div class="div-descricao-carrinho">
             <p class=""><b>Descrição: </b>\${dsc}</p>
             </div>
-            <div class="div-observacao-carrinho">
+            <div class="div-observacao-carrinho animated bounceInDown">
             
-            <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
+            <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho "  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
             </div>
         
@@ -1536,10 +1542,10 @@ cardapio.templates = {
             </div>
            
             <div class="add-carrinho">
-                    <button class="btn-purple btn-sm  ver-acrescimos hidden no-mobile" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
-                    <i class="fas fa-arrow-down no-mobile"></i>
+                    <button class="btn-purple btn-sm mobile-flex ver-acrescimos hidden" id=ver-acrescimos-down-\${idCarrinho} onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',true)">
+                    <i class="fas fa-arrow-down "></i>
                     </button>
-                    <button class="btn-purple btn-sm ver-acrescimos no-mobile" id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
+                    <button class="btn-purple btn-sm ver-acrescimos mobile-flex " id=ver-acrescimos-up-\${idCarrinho}  onclick="cardapio.metodos.mostrarAcrescimos('\${idCarrinho}',false)">
                     <i class="fas fa-arrow-up hd"></i> 
                 </button>
                 <span class="btn-menos" id="btn-menos-\${id}_\${idCarrinho}" onclick="cardapio.metodos.diminuirQuantidadeCarrinho('\${id}_\${idCarrinho}')"><i class="fas fa-minus" id="icon-menos-\${id}_\${idCarrinho}"></i></span>
@@ -1554,7 +1560,7 @@ cardapio.templates = {
         <div class="div-descricao-carrinho">
             <p class=""><b>Descrição: </b>\${dsc}</p>
             </div>
-            <div class="div-observacao-carrinho">
+            <div class="div-observacao-carrinho animated bounceInDown">
             
             <textarea id="observacao-carrinho-\${idCarrinho}" class="observacao-carrinho"  placeholder="Digite observações aqui, por exemplo: 'sem cebola'." name="Observação"></textarea>
         
