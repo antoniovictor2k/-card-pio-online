@@ -161,9 +161,10 @@
     }
 
     .container-redes-footer {
-        margin-top: 40px;
-        margin-bottom: 50px;
+        margin-top: 10px;
+        margin-bottom: 0px;
         justify-content: center;
+        display: none;
     }
 
     .modal-full {
