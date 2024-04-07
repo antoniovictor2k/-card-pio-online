@@ -878,12 +878,21 @@ cardapio.metodos = {
             return;
         }
 
-        let SelectTamanho = $(`.select-tamanho-pizza`).val().trim();
-        if (SelectTamanho == '0') {
-            cardapio.metodos.mensagem('Por favor escolhar um tamanho para a pizza.');
-            $(`.select-tamanho-pizza`).focus();
-            return;
+        console.log(MEU_CARRINHO)
+
+        const possuiPizza = MEU_CARRINHO.some(item => item.id.includes('pizza'));
+
+    //  verificar se existe if para pode fazer a verificação de retorno se não vai da erro! 
+        if (possuiPizza) {
+            const SelectTamanho = $(`.select-tamanho-pizza`).val().trim();
+            const existePizzaNoCarrinho = SelectTamanho == '0' && possuiPizza;
+            if (existePizzaNoCarrinho) {
+                cardapio.metodos.mensagem('Por favor escolhar um tamanho para a pizza.');
+                $(`.select-tamanho-pizza`).focus();
+                return;
+            }
         }
+
         cardapio.metodos.carregarEtapa(2);
         $('#txtNome').focus()
     },
